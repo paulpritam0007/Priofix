@@ -1,0 +1,204 @@
+<!DOCTYPE html><html><head>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=Cabin:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box }
+        
+        /* FIX 1: Allow vertical scrolling and remove height constraint */
+        body { 
+            background: #000; 
+            font-family: 'Inter', sans-serif; 
+            color: #fff; 
+            overflow-x: hidden; 
+            overflow-y: auto; 
+        }
+    
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; backdrop-filter: blur(16px); background: rgba(0,0,0,0.4); border-bottom: 1px solid rgba(255,255,255,0.06) }
+        .nav-brand { font-size: 15px; font-weight: 600; letter-spacing: -0.02em }
+        .nav-links { display: flex; gap: 24px; font-size: 13px; color: rgba(255,255,255,0.55) }
+        .nav-links a { text-decoration: none; color: inherit; transition: color 0.2s }
+        .nav-cta { padding: 7px 18px; border-radius: 8px; font-size: 12px; font-weight: 500; background: #fff; color: #000; border: none; cursor: pointer }
+    
+        /* FIX 2: Set to fixed so it stays in the background during scroll */
+        .video-wrap { position: fixed; inset: 0; z-index: 0; overflow: hidden }
+        .video-wrap video { width: 100%; height: 100%; object-fit: cover; filter: saturate(0); }
+        .video-overlay { position: absolute; inset: 0; z-index: 1 }
+    
+        .hero { position: relative; z-index: 10; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px }
+        .badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 32px }
+        
+        h1 { font-size: 72px; font-weight: 600; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 20px; background: linear-gradient(180deg,#fff 40%,rgba(255,255,255,0.4)); -webkit-background-clip: text; -webkit-text-fill-color: transparent }
+        .sub { font-size: 17px; color: rgba(255,255,255,0.5); max-width: 480px; line-height: 1.6; margin-bottom: 36px }
+        
+        /* Shared Components */
+        .section { position: relative; z-index: 10; padding: 120px 32px; max-width: 1200px; margin: 0 auto; }
+        .section-tag { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 16px; display: block; }
+        .btns { display: flex; gap: 12px }
+        .btn { padding: 12px 28px; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; transition: 0.2s; }
+        .btn-p { background: #fff; color: #000 }
+        .btn-s { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.12) }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    
+        /* Core Stack Section */
+        .stack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); margin-top: 40px; }
+        .stack-item { background: #000; padding: 40px; display: flex; flex-direction: column; gap: 12px; }
+        .stack-item h3 { font-size: 18px; font-weight: 500; }
+        .stack-item p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+    
+        /* Projects Section */
+        .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 40px; }
+        .project-card { position: relative; aspect-ratio: 16/10; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; overflow: hidden; padding: 40px; display: flex; flex-direction: column; justify-content: flex-end; transition: 0.4s; }
+        .project-card:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); }
+        .project-card h3 { font-size: 24px; margin-bottom: 8px; }
+        .project-card p { color: rgba(255,255,255,0.5); font-size: 15px; }
+    
+        /* CTA Section */
+        .cta-wrap { position: relative; z-index: 10; text-align: center; padding: 160px 20px; border-top: 1px solid rgba(255,255,255,0.06); background: #000; }
+        .cta-wrap h2 { font-size: 48px; font-weight: 600; margin-bottom: 24px; letter-spacing: -0.02em; }
+
+        .video-wrap { 
+        position: fixed;   /* Pins video to the screen regardless of scroll */
+        inset: 0; 
+        z-index: 0;        /* Keeps it behind all text and cards */
+        overflow: hidden;
+        pointer-events: none; /* Ensures the video doesn't block button clicks */
+    }
+
+        .hero, .section, .cta-wrap {
+            position: relative; 
+            z-index: 10;       /* Forces content to sit on top of the fixed video */
+        }
+      /* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+    nav {
+        padding: 12px 20px;
+    }
+
+    .nav-links {
+        display: none; /* Hide links on mobile for a cleaner look, or use a burger menu */
+    }
+
+    .hero {
+        padding: 100px 20px 60px 20px;
+    }
+
+    h1 {
+        font-size: 42px; /* Scale down hero text */
+        line-height: 1.2;
+    }
+
+    .sub {
+        font-size: 15px;
+        margin-bottom: 24px;
+    }
+
+    .btns {
+        flex-direction: column; /* Stack buttons vertically */
+        width: 100%;
+        gap: 12px;
+    }
+
+    .btn {
+        width: 100%; /* Full width buttons for easier tapping */
+        text-align: center;
+    }
+
+    .section {
+        padding: 60px 20px; /* Reduce large desktop padding */
+    }
+
+    h2 {
+        font-size: 32px;
+    }
+
+    /* Stack Grids */
+    .stack-grid {
+        grid-template-columns: 1fr; /* Single column for stack items */
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr; /* Single column for project cards */
+    }
+
+    .project-card {
+        padding: 30px 20px;
+        aspect-ratio: 1/1; /* Square cards often look better on mobile */
+    }
+
+    .cta-wrap h2 {
+        font-size: 36px;
+    }
+}
+    </style>
+    </style></head><body>
+    <nav><div class="nav-brand">Priofix</div><div class="nav-links"><a href="#">Features</a><a href="#">Insights</a><a href="#">About</a><a href="#">Contact</a></div><button class="nav-cta">Get Started</button></nav>
+    <div class="video-wrap"><video id="vid" autoplay muted loop playsinline></video><div class="video-overlay" style="background:linear-gradient(to bottom,rgba(0,0,0,0.5),rgba(0,0,0,0.7))"></div></div>
+    <div class="hero"><div class="badge">Powered by Priofix</div><h1>Where Innovation<br>Meets Execution</h1><p class="sub">I ship UI faster with intelligent automation that scales up your brand.</p><div class="btns"><button class="btn btn-p">I am Interested</button><button class="btn btn-s">Learn More</button></div></div>
+    <script>(function(){var v=document.getElementById('vid');var s='https://stream.mux.com/NcU3HlHeF7CUL86azTTzpy3Tlb00d6iF3BmCdFslMJYM.m3u8';if(Hls.isSupported()){var h=new Hls();h.loadSource(s);h.attachMedia(v)}else if(v.canPlayType('application/vnd.apple.mpegurl')){v.src=s}})()</script>
+    <section class="section">
+        <span class="section-tag">Infrastructure</span>
+        <h2>The Core Stack</h2>
+        <div class="stack-grid">
+            <div class="stack-item">
+                <h3>Neural Engine</h3>
+                <p>Proprietary LLM orchestration for sub-second response times.</p>
+            </div>
+            <div class="stack-item">
+                <h3>Edge Compute</h3>
+                <p>Global deployment across 300+ nodes for zero-latency execution.</p>
+            </div>
+            <div class="stack-item">
+                <h3>Data Mesh</h3>
+                <p>Real-time synchronization between legacy systems and AI assets.</p>
+            </div>
+            <div class="stack-item">
+                <h3>Secure Vault</h3>
+                <p>Enterprise-grade encryption with zero-knowledge architecture.</p>
+            </div>
+            <div class="stack-item">
+                <h3>Prompt Engineering</h3>
+                <p>The ideas to generate by our team provides the best outcome.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <span class="section-tag">Case Studies</span>
+        <h2>Featured Deployments</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3>Scentra</h3>
+                <p>Crafted a scented-candle brand as their preference and choice with zero compromisation on quality.</p>
+            </div>
+            <div class="project-card">
+                <h3>StoneMarg</h3>
+                <p>Created a financial support website that fills the gap between financial knowledge and lifestyle.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-wrap">
+        <div class="section">
+            <h2>Ready to scale?</h2>
+            <p class="sub" style="margin: 0 auto 32px auto;">Join 50+ companies building the future on Priofix.</p>
+            <div class="btns" style="justify-content: center;">
+                <button class="btn btn-p">Create Account</button>
+                <button class="btn btn-s">Book a Demo</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        (function(){
+            var v=document.getElementById('vid');
+            var s='https://stream.mux.com/NcU3HlHeF7CUL86azTTzpy3Tlb00d6iF3BmCdFslMJYM.m3u8';
+            if(Hls.isSupported()){
+                var h=new Hls();
+                h.loadSource(s);
+                h.attachMedia(v)
+            } else if(v.canPlayType('application/vnd.apple.mpegurl')){
+                v.src=s
+            }
+        })()
+    </script>
+    </body></html>
