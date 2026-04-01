@@ -877,7 +877,7 @@ console.log("1. Script loaded! Setting up Supabase...");
 // Initialize Supabase (ONLY DECLARED ONCE!)
 const SUPABASE_URL = 'https://woklfxbdlnjwkulirmga.supabase.co'; 
 const SUPABASE_ANON_KEY = 'sb_publishable_NE8DuhcY4OtaN0PpEfyuQQ_ZTreKvq6';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // State & Elements
 let currentUser = null;
@@ -891,7 +891,7 @@ const navCta = document.querySelector('.nav-cta');
 // Check Auth Status on Load
 async function checkUser() {
     console.log("2. Checking if user is logged in...");
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabaseClient.auth.getSession();
     currentUser = session?.user || null;
     
     if (currentUser) {
@@ -937,7 +937,7 @@ document.getElementById('signUpBtn').addEventListener('click', async () => {
     
     authMessage.innerText = "Creating account...";
     
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabaseClient.auth.signUp({ email, password });
     
     if (error) {
         console.error("Sign Up Error:", error);
@@ -968,7 +968,7 @@ document.getElementById('signInBtn').addEventListener('click', async () => {
 
     authMessage.innerText = "Signing in...";
     
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
     
     if (error) {
         console.error("Sign In Error:", error);
@@ -983,7 +983,7 @@ document.getElementById('signInBtn').addEventListener('click', async () => {
 
 // Sign Out Logic
 async function signOut() {
-    await supabase.auth.signOut();
+    await supabaseClient.auth.signOut();
     checkUser(); 
     alert("You have been signed out.");
 }
