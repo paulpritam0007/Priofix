@@ -217,11 +217,11 @@
 <div class="hero">
     <div class="badge">Powered by Priofix</div>
     <h1>Where Imagination<br>Meets Execution</h1>
-    <p class="sub">Just copy, paste and make it yours. <em>India's first UI/UX online brand that can make your website </em><strong>Unbelievable.</strong></p>
+    <p class="sub"><em>India's</em> first UI/UX online brand that can make your website <strong>Unbelievable.</strong></p>
     <div class="btns">
-        <button class="btn btn-p" onclick="document.querySelector('.nav-cta').click()">Sign in</button>
-        <button class="btn btn-s">Create account</button>
-    </div>
+    <button class="btn btn-p" onclick="document.querySelector('.nav-cta').click()">Sign in</button>
+    <button class="btn btn-s" onclick="openSignUp()">Create account</button>
+</div>
 </div>
 
 <script>
@@ -604,14 +604,28 @@
     <div class="auth-modal">
         <button id="closeModalBtn" class="close-btn" style="display: none;">&times;</button>
         <div class="nav-brand" style="margin-bottom: 24px; font-size: 20px;">Priofix</div>
-        <h3 style="font-size: 24px; margin-bottom: 12px; letter-spacing: -0.02em;">Join the Club</h3>
+        
+        <h3 id="authTitle" style="font-size: 24px; margin-bottom: 12px; letter-spacing: -0.02em;">Join the Club</h3>
         <p id="authMessage" style="font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 24px;">Sign in or create an account to unlock premium prompts.</p>
         
         <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+            <input type="text" id="nameInput" placeholder="Full Name" style="display: none; padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
+            
+            <input type="date" id="dobInput" style="display: none; padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none; color-scheme: dark;">
+            
             <input type="email" id="emailInput" placeholder="Email address" style="padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
+            
             <input type="password" id="passwordInput" placeholder="Password" style="padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
+            
+            <input type="password" id="confirmPasswordInput" placeholder="Confirm Passkey" style="display: none; padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
         </div>
         
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            <button class="btn btn-p" id="primaryAuthActionBtn" style="width: 100%;">Sign In</button>
+            <button class="btn btn-s" id="toggleViewBtn" style="width: 100%;">Create Account</button>
+        </div>
+    </div>
+</div>
         <div style="display: flex; flex-direction: column; gap: 12px;">
             <button class="btn btn-p" id="signInBtn" style="width: 100%;">Sign In</button>
             <button class="btn btn-s" id="signUpBtn" style="width: 100%;">Create Account</button>
@@ -677,6 +691,15 @@ function showAuthModal() {
     authModal.classList.add('show');
     closeModalBtn.style.display = 'none';
     setTimeout(() => { closeModalBtn.style.display = 'flex'; }, 2500);
+}
+// Function to specifically open the Create Account view
+function openSignUp() {
+    showAuthModal(); // Opens the modal
+    
+    // If the modal is currently on the "Sign In" view, toggle it back to "Sign Up"
+    if (!isSignUpMode) {
+        document.getElementById('toggleAuthModeBtn').click(); 
+    }
 }
 
 function hideAuthModal() {
@@ -761,6 +784,58 @@ window.filterGallery = function(cat, pill) {
         }
     });
 }
+    // --- Modal View Toggle Logic ---
+let isSignUpView = false;
+
+const authTitle = document.getElementById('authTitle');
+const authMessage = document.getElementById('authMessage');
+const nameInput = document.getElementById('nameInput');
+const dobInput = document.getElementById('dobInput');
+const passwordInput = document.getElementById('passwordInput');
+const confirmPasswordInput = document.getElementById('confirmPasswordInput');
+const primaryAuthActionBtn = document.getElementById('primaryAuthActionBtn');
+const toggleViewBtn = document.getElementById('toggleViewBtn');
+
+toggleViewBtn.addEventListener('click', () => {
+    isSignUpView = !isSignUpView;
+    
+    if (isSignUpView) {
+        // Show Sign Up Form
+        authTitle.innerText = "Create an Account";
+        authMessage.innerText = "Fill in your details to join the club.";
+        
+        nameInput.style.display = "block";
+        dobInput.style.display = "block";
+        confirmPasswordInput.style.display = "block";
+        
+        passwordInput.placeholder = "New Passkey";
+        
+        primaryAuthActionBtn.innerText = "Register";
+        toggleViewBtn.innerText = "Already have an account? Sign In";
+        
+        // Optional: Remove background border from the secondary button to make it look like a text link
+        toggleViewBtn.style.background = "transparent";
+        toggleViewBtn.style.border = "none";
+        
+    } else {
+        // Revert back to Sign In Form
+        authTitle.innerText = "Join the Club";
+        authMessage.innerText = "Sign in or create an account to unlock premium prompts.";
+        
+        nameInput.style.display = "none";
+        dobInput.style.display = "none";
+        confirmPasswordInput.style.display = "none";
+        
+        passwordInput.placeholder = "Password";
+        
+        primaryAuthActionBtn.innerText = "Sign In";
+        toggleViewBtn.innerText = "Create Account";
+        
+        // Restore secondary button styling
+        toggleViewBtn.style.background = "rgba(255,255,255,0.08)";
+        toggleViewBtn.style.border = "1px solid rgba(255,255,255,0.12)";
+    }
+});
 </script>
 </body>
 </html>
