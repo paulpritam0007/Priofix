@@ -846,11 +846,17 @@
         <button id="closeModalBtn" class="close-btn" style="display: none;">&times;</button>
         <div class="nav-brand" style="margin-bottom: 24px; font-size: 20px;">Priofix</div>
         <h3 style="font-size: 24px; margin-bottom: 12px; letter-spacing: -0.02em;">Join the Club</h3>
-        <p style="font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 32px; line-height: 1.5;">Sign in or create an account to unlock premium prompts and copy them instantly.</p>
+        
+        <p id="authMessage" style="font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 24px;">Sign in or create an account to unlock premium prompts.</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+            <input type="email" id="emailInput" placeholder="Email address" style="padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
+            <input type="password" id="passwordInput" placeholder="Password" style="padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
+        </div>
         
         <div style="display: flex; flex-direction: column; gap: 12px;">
-            <button class="btn btn-p" onclick="simulateLogin()" style="width: 100%;">Sign In</button>
-            <button class="btn btn-s" style="width: 100%;">Create Account</button>
+            <button class="btn btn-p" id="signInBtn" style="width: 100%;">Sign In</button>
+            <button class="btn btn-s" id="signUpBtn" style="width: 100%;">Create Account</button>
         </div>
     </div>
 </div>
