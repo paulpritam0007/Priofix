@@ -302,6 +302,66 @@
         .site-footer a:hover {
             color: #fff;
         }
+        /* Auth Modal Styles */
+        .auth-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 9999; /* Highest priority */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .auth-modal-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .auth-modal {
+            background: #0a0a0a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .auth-modal-overlay.show .auth-modal {
+            transform: translateY(0);
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.5);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.2s;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .close-btn:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+        }
 
         /* Mobile */
         @media (max-width: 768px) {
@@ -723,6 +783,22 @@
     </div><!-- /gallery-grid -->
 </div><!-- /club-inner -->
 </section>
+<!--About-->
+<section class="section" id="About" style="padding-top: 60px; padding-bottom: 60px;">
+    <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 24px; padding: 80px 40px; text-align: center; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -50%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%); pointer-events: none;"></div>
+        
+        <span class="section-tag">Our Story</span>
+        <h2 style="font-size: 48px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 24px; font-family: 'Instrument Serif', serif; font-style: italic;">Established in 2025.</h2>
+        
+        <p style="font-size: 18px; color: rgba(255,255,255,0.6); max-width: 700px; margin: 0 auto; line-height: 1.6;">
+            We recognized a universal struggle: developers and UI/UX designers constantly wrestling with the friction between imagination and code. Creating truly good, jaw-dropping web design was taking too much time and requiring too much boilerplate. 
+        </p>
+        <p style="font-size: 18px; color: rgba(255,255,255,0.6); max-width: 700px; margin: 24px auto 0; line-height: 1.6;">
+            We decided to take the step and build the bridge. Priofix was created to provide zero-compromise, premium UI components that you can just copy, paste, and make your own. 
+        </p>
+    </div>
+</section>
 
 <!-- Case Studies -->
 <section class="section" id="Insights">
@@ -765,6 +841,19 @@
 </footer>
 
 <div class="toast" id="toast">Prompt copied ✓</div>
+<div id="authModal" class="auth-modal-overlay">
+    <div class="auth-modal">
+        <button id="closeModalBtn" class="close-btn" style="display: none;">&times;</button>
+        <div class="nav-brand" style="margin-bottom: 24px; font-size: 20px;">Priofix</div>
+        <h3 style="font-size: 24px; margin-bottom: 12px; letter-spacing: -0.02em;">Join the Club</h3>
+        <p style="font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 32px; line-height: 1.5;">Sign in or create an account to unlock premium prompts and copy them instantly.</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            <button class="btn btn-p" onclick="simulateLogin()" style="width: 100%;">Sign In</button>
+            <button class="btn btn-s" style="width: 100%;">Create Account</button>
+        </div>
+    </div>
+</div>
 
 <style>
 @keyframes blobDrift {
@@ -775,7 +864,58 @@
 </style>
 
 <script>
+// Mock Authentication State (Replace this with actual Firebase/Supabase logic later)
+let isLoggedIn = false; 
+
+// Modal Elements
+const authModal = document.getElementById('authModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
+
+// Function to show the modal
+function showAuthModal() {
+    authModal.classList.add('show');
+    
+    // Hide the close button initially, show it after 2.5 seconds
+    closeModalBtn.style.display = 'none';
+    setTimeout(() => {
+        closeModalBtn.style.display = 'flex';
+    }, 2500);
+}
+
+// Function to hide the modal
+function hideAuthModal() {
+    authModal.classList.remove('show');
+}
+
+// Trigger modal 1 second after page loads if user is not logged in
+window.addEventListener('load', () => {
+    if (!isLoggedIn) {
+        setTimeout(() => {
+            showAuthModal();
+        }, 1000); 
+    }
+});
+
+// Close button event listener
+closeModalBtn.addEventListener('click', hideAuthModal);
+
+// Mock login function for the modal button
+function simulateLogin() {
+    isLoggedIn = true;
+    hideAuthModal();
+    alert("You are now signed in! You can copy prompts.");
+    // In production, this button would trigger your Firebase/Supabase flow.
+}
+
+// UPDATED Copy Prompt Function
 function copyPrompt(btn) {
+    // 1. Check if user is logged in
+    if (!isLoggedIn) {
+        showAuthModal(); // Force them to log in
+        return; // Stop the copy process
+    }
+
+    // 2. If logged in, proceed with copying
     var card = btn.closest('.gallery-card');
     var prompt = card.getAttribute('data-prompt');
     navigator.clipboard.writeText(prompt).then(function() {
@@ -785,6 +925,7 @@ function copyPrompt(btn) {
     });
 }
 
+// Existing Filter Function
 function filterGallery(cat, pill) {
     document.querySelectorAll('.filter-pill').forEach(function(p) { p.classList.remove('active'); });
     pill.classList.add('active');
@@ -797,5 +938,5 @@ function filterGallery(cat, pill) {
     });
 }
 </script>
-
-</body></html>
+</body>
+</html>
