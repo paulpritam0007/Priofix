@@ -1,4 +1,9 @@
-<!DOCTYPE html><html><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priofix</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=Cabin:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="32x32" href="icon.png">
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -12,73 +17,38 @@
             overflow-x: hidden; 
             overflow-y: auto; 
         }
-    
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; backdrop-filter: blur(16px); background: rgba(0,0,0,0.4); border-bottom: 1px solid rgba(255,255,255,0.06) }
-        .nav-brand { font-size: 15px; font-weight: 600; letter-spacing: -0.02em }
+
+        /* --- Unified Navbar Styles --- */
+        nav { 
+            position: fixed; top: 0; left: 0; right: 0; z-index: 50; 
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 16px 32px; backdrop-filter: blur(16px); 
+            background: rgba(0,0,0,0.4); border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        .nav-brand { font-size: 15px; font-weight: 600; letter-spacing: -0.02em; z-index: 51; }
+        
+        /* Wrapper for desktop links and CTA */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
         .nav-links { display: flex; gap: 24px; font-size: 13px; color: rgba(255,255,255,0.55) }
         .nav-links a { text-decoration: none; color: inherit; transition: color 0.2s }
+        .nav-links a:hover { color: #fff; }
         .nav-cta { padding: 7px 18px; border-radius: 8px; font-size: 12px; font-weight: 500; background: #fff; color: #000; border: none; cursor: pointer }
-        /* --- Hamburger Icon Styles --- */
-        .hamburger {
-            display: none; /* Hidden on desktop */
-            cursor: pointer;
-        }
         
+        /* Hamburger Icon */
+        .hamburger { display: none; cursor: pointer; z-index: 51; }
         .bar {
-            display: block;
-            width: 25px;
-            height: 3px;
-            margin: 5px auto;
-            -webkit-transition: all 0.3s ease-in-out;
-            transition: all 0.3s ease-in-out;
-            background-color: #333;
+            display: block; width: 25px; height: 3px; margin: 5px auto;
+            transition: all 0.3s ease-in-out; background-color: #fff;
         }
-        
-        /* --- Mobile Styles (Screens smaller than 768px) --- */
-        @media only screen and (max-width: 768px) {
-            .nav-menu {
-                position: fixed;
-                left: -100%; /* Hides the menu completely off-screen to the left */
-                top: 60px; /* Adjust based on your navbar height */
-                flex-direction: column;
-                background-color: #fff;
-                width: 100%;
-                text-align: center;
-                transition: 0.3s;
-                box-shadow: 0 10px 10px rgba(0,0,0,0.1);
-                padding: 2rem 0;
-            }
-        
-            .nav-menu.active {
-                left: 0; /* Slides the menu in when the 'active' class is added */
-            }
-        
-            .nav-item {
-                margin: 1.5rem 0;
-            }
-        
-            .hamburger {
-                display: block; /* Shows the hamburger icon on mobile */
-            }
-        
-            /* Optional: Hamburger to 'X' Animation */
-            .hamburger.active .bar:nth-child(2) {
-                opacity: 0;
-            }
-            .hamburger.active .bar:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
-            .hamburger.active .bar:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
-            }
-        }
-        .video-wrap { 
-            position: fixed;
-            inset: 0; 
-            z-index: 0;
-            overflow: hidden;
-            pointer-events: none;
-        }
+
+        /* --- Hero & Core Layout --- */
+        .video-wrap { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
         .video-wrap video { width: 100%; height: 100%; object-fit: cover; filter: saturate(0); }
         .video-overlay { position: absolute; inset: 0; z-index: 1 }
     
@@ -90,368 +60,14 @@
         
         .section { position: relative; z-index: 10; padding: 120px 32px; max-width: 1200px; margin: 0 auto; }
         .section-tag { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 16px; display: block; }
+        
         .btns { display: flex; gap: 12px }
         .btn { padding: 12px 28px; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; transition: 0.2s; }
         .btn-p { background: #fff; color: #000 }
         .btn-s { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.12) }
         .btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
-        /* ── CLUB / GALLERY SECTION ── */
-        #club-section {
-            position: relative;
-            z-index: 10;
-            background: #0a0a0a;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            padding: 80px 0 100px;
-        }
-
-        .club-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 32px;
-        }
-
-        .club-header {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            margin-bottom: 48px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .club-header-left {}
-        .club-header-left .section-tag { margin-bottom: 10px; }
-        .club-header-left h2 {
-            font-size: 36px;
-            font-weight: 600;
-            letter-spacing: -0.025em;
-            line-height: 1.1;
-        }
-
-        .club-filter-row {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .filter-pill {
-            padding: 7px 16px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: transparent;
-            color: rgba(255,255,255,0.5);
-            transition: all 0.2s;
-            letter-spacing: 0.02em;
-        }
-        .filter-pill:hover,
-        .filter-pill.active {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
-        }
-
-        /* Gallery grid — masonry-feel, 3-col */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-
-        .gallery-card {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.07);
-            background: #111;
-            cursor: pointer;
-            transition: border-color 0.3s, transform 0.3s;
-            group: true;
-        }
-
-        .gallery-card:hover {
-            border-color: rgba(255,255,255,0.25);
-            transform: translateY(-3px);
-        }
-
-        /* Card visual area — gradient preview */
-        .card-visual {
-            width: 100%;
-            aspect-ratio: 16/10;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Each card has a unique gradient to simulate a hero preview */
-        .card-visual-inner {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .card-preview-text {
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: -0.04em;
-            opacity: 0.18;
-            text-align: center;
-            padding: 0 16px;
-            line-height: 1.1;
-            pointer-events: none;
-            font-family: 'Instrument Serif', serif;
-        }
-
-        /* Hover overlay with copy button */
-        .card-hover-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0,0,0,0.55);
-            backdrop-filter: blur(2px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.25s;
-        }
-        .gallery-card:hover .card-hover-overlay { opacity: 1; }
-
-        .copy-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 22px;
-            border-radius: 10px;
-            background: #fff;
-            color: #000;
-            font-size: 13px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.15s;
-            letter-spacing: -0.01em;
-        }
-        .copy-btn:hover { transform: scale(1.04); }
-        .copy-btn svg { width: 14px; height: 14px; }
-
-        /* Card info bar */
-        .card-info {
-            padding: 16px 18px 18px;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .card-meta {}
-        .card-title {
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 4px;
-            letter-spacing: -0.01em;
-        }
-        .card-tags {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        .card-tag {
-            font-size: 11px;
-            color: rgba(255,255,255,0.4);
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 4px;
-            padding: 2px 7px;
-        }
-
-        .card-stack-icon {
-            display: flex;
-            gap: 4px;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-        .stack-dot {
-            width: 20px;
-            height: 20px;
-            border-radius: 5px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 9px;
-            font-weight: 700;
-            color: rgba(255,255,255,0.5);
-            letter-spacing: 0;
-        }
-
-        /* Tall card variant */
-        .gallery-card.tall .card-visual { aspect-ratio: 4/5; }
-
-        /* Copied toast */
-        .toast {
-            position: fixed;
-            bottom: 32px;
-            left: 50%;
-            transform: translateX(-50%) translateY(12px);
-            background: #fff;
-            color: #000;
-            padding: 10px 22px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 500;
-            z-index: 999;
-            opacity: 0;
-            transition: opacity 0.2s, transform 0.2s;
-            pointer-events: none;
-        }
-        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-        /* ── FOOTER ── */
-        .site-footer {
-            position: relative;
-            z-index: 10;
-            background: #0d0d0d;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            padding: 40px 32px;
-            font-size: 14px;
-            color: rgba(255,255,255,0.5);
-        }
-
-        .footer-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .footer-left, .footer-right {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            flex-wrap: wrap;
-        }
-
-        .footer-brand {
-            font-size: 16px;
-            font-weight: 600;
-            color: #fff;
-            letter-spacing: -0.02em;
-        }
-
-        .site-footer a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .site-footer a:hover {
-            color: #fff;
-        }
-        /* Auth Modal Styles */
-        .auth-modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            z-index: 9999; /* Highest priority */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        
-        .auth-modal-overlay.show {
-            opacity: 1;
-            pointer-events: all;
-        }
-        
-        .auth-modal {
-            background: #0a0a0a;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 40px;
-            width: 90%;
-            max-width: 400px;
-            position: relative;
-            text-align: center;
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-        
-        .auth-modal-overlay.show .auth-modal {
-            transform: translateY(0);
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: none;
-            border: none;
-            color: rgba(255,255,255,0.5);
-            font-size: 24px;
-            cursor: pointer;
-            transition: color 0.2s;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-        
-        .close-btn:hover {
-            color: #fff;
-            background: rgba(255,255,255,0.1);
-        }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            nav { padding: 12px 20px; }
-            .nav-links { display: none; }
-            .hero { padding: 100px 20px 60px 20px; }
-            h1 { font-size: 42px; line-height: 1.2; }
-            .sub { font-size: 15px; margin-bottom: 24px; }
-            .btns { flex-direction: column; width: 100%; gap: 12px; }
-            .btn { width: 100%; text-align: center; }
-            .section { padding: 60px 20px; }
-            h2 { font-size: 32px; }
-            .stack-grid { grid-template-columns: 1fr; }
-            .projects-grid { grid-template-columns: 1fr; }
-            .project-card { padding: 30px 20px; aspect-ratio: 1/1; }
-            .cta-wrap h2 { font-size: 36px; }
-
-            .gallery-grid { grid-template-columns: 1fr; }
-            .club-header { flex-direction: column; align-items: flex-start; }
-            .club-inner { padding: 0 20px; }
-            #club-section { padding: 60px 0 80px; }
-
-            /* Footer Mobile */
-            .footer-inner { flex-direction: column; justify-content: center; text-align: center; gap: 16px; }
-            .footer-left, .footer-right { justify-content: center; gap: 16px; }
-        }
-
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        /* Projects Section */
-        .stack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); margin-top: 40px; }
-        .stack-item { background: #000; padding: 40px; display: flex; flex-direction: column; gap: 12px; }
-        .stack-item h3 { font-size: 18px; font-weight: 500; }
-        .stack-item p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.5; }
-
+        /* --- Projects & CTA Section --- */
         .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 40px; }
         .project-card { position: relative; aspect-ratio: 16/10; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; overflow: hidden; padding: 40px; display: flex; flex-direction: column; justify-content: flex-end; transition: 0.4s; }
         .project-card:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); }
@@ -461,10 +77,90 @@
         .cta-wrap { position: relative; z-index: 10; text-align: center; padding: 160px 20px; border-top: 1px solid rgba(255,255,255,0.06); background: #000; }
         .cta-wrap h2 { font-size: 48px; font-weight: 600; margin-bottom: 24px; letter-spacing: -0.02em; }
 
-        /* Mobile */
-        @media (max-width: 768px) {
+        /* --- CLUB / GALLERY SECTION --- */
+        #club-section { position: relative; z-index: 10; background: #0a0a0a; border-top: 1px solid rgba(255,255,255,0.06); padding: 80px 0 100px; }
+        .club-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+        .club-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; flex-wrap: wrap; gap: 20px; }
+        .club-header-left .section-tag { margin-bottom: 10px; }
+        .club-header-left h2 { font-size: 36px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; }
+        .club-filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        
+        .filter-pill { padding: 7px 16px; border-radius: 999px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.5); transition: all 0.2s; letter-spacing: 0.02em; }
+        .filter-pill:hover, .filter-pill.active { background: #fff; color: #000; border-color: #fff; }
+
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .gallery-card { position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); background: #111; cursor: pointer; transition: border-color 0.3s, transform 0.3s; }
+        .gallery-card:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-3px); }
+        .card-visual { width: 100%; aspect-ratio: 16/10; position: relative; overflow: hidden; }
+        .card-visual-inner { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+        .card-preview-text { font-size: 28px; font-weight: 700; letter-spacing: -0.04em; opacity: 0.18; text-align: center; padding: 0 16px; line-height: 1.1; pointer-events: none; font-family: 'Instrument Serif', serif; }
+        
+        .card-hover-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.25s; }
+        .gallery-card:hover .card-hover-overlay { opacity: 1; }
+        .copy-btn { display: flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 10px; background: #fff; color: #000; font-size: 13px; font-weight: 600; border: none; cursor: pointer; transition: transform 0.15s; letter-spacing: -0.01em; }
+        .copy-btn:hover { transform: scale(1.04); }
+        .copy-btn svg { width: 14px; height: 14px; }
+
+        .card-info { padding: 16px 18px 18px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+        .card-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; letter-spacing: -0.01em; }
+        .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+        .card-tag { font-size: 11px; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07); border-radius: 4px; padding: 2px 7px; }
+        .card-stack-icon { display: flex; gap: 4px; flex-shrink: 0; margin-top: 2px; }
+        .stack-dot { width: 20px; height: 20px; border-radius: 5px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.5); }
+        .gallery-card.tall .card-visual { aspect-ratio: 4/5; }
+
+        /* --- FOOTER & MODALS --- */
+        .site-footer { position: relative; z-index: 10; background: #0d0d0d; border-top: 1px solid rgba(255,255,255,0.06); padding: 40px 32px; font-size: 14px; color: rgba(255,255,255,0.5); }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+        .footer-left, .footer-right { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+        .footer-brand { font-size: 16px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+        .site-footer a { color: inherit; text-decoration: none; transition: color 0.2s; }
+        .site-footer a:hover { color: #fff; }
+
+        .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(12px); background: #fff; color: #000; padding: 10px 22px; border-radius: 10px; font-size: 13px; font-weight: 500; z-index: 999; opacity: 0; transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        .auth-modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .auth-modal-overlay.show { opacity: 1; pointer-events: all; }
+        .auth-modal { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 40px; width: 90%; max-width: 400px; position: relative; text-align: center; transform: translateY(20px); transition: transform 0.3s ease; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .auth-modal-overlay.show .auth-modal { transform: translateY(0); }
+        .close-btn { position: absolute; top: 16px; right: 16px; background: none; border: none; color: rgba(255,255,255,0.5); font-size: 24px; cursor: pointer; transition: color 0.2s; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        .close-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+
+        @keyframes blobDrift {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(20px, -15px); }
+            66% { transform: translate(-15px, 10px); }
+        }
+
+        /* --- MOBILE MEDIA QUERIES (Consolidated) --- */
+        @media only screen and (max-width: 768px) {
             nav { padding: 12px 20px; }
-            .nav-links { display: none; }
+            
+            /* Mobile Navbar Logic */
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 55px; /* Adjust based on navbar height */
+                flex-direction: column;
+                background-color: #000;
+                border-bottom: 1px solid rgba(255,255,255,0.06);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s ease-in-out;
+                padding: 2rem 0;
+                gap: 24px;
+            }
+            .nav-menu.active { left: 0; }
+            .nav-links { flex-direction: column; gap: 24px; font-size: 16px; }
+            .hamburger { display: block; }
+            
+            /* Hamburger Animation */
+            .hamburger.active .bar:nth-child(2) { opacity: 0; }
+            .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+            /* General Mobile Layout */
             .hero { padding: 100px 20px 60px 20px; }
             h1 { font-size: 42px; line-height: 1.2; }
             .sub { font-size: 15px; margin-bottom: 24px; }
@@ -472,7 +168,7 @@
             .btn { width: 100%; text-align: center; }
             .section { padding: 60px 20px; }
             h2 { font-size: 32px; }
-            .stack-grid { grid-template-columns: 1fr; }
+            
             .projects-grid { grid-template-columns: 1fr; }
             .project-card { padding: 30px 20px; aspect-ratio: 1/1; }
             .cta-wrap h2 { font-size: 36px; }
@@ -481,36 +177,30 @@
             .club-header { flex-direction: column; align-items: flex-start; }
             .club-inner { padding: 0 20px; }
             #club-section { padding: 60px 0 80px; }
+
+            .footer-inner { flex-direction: column; justify-content: center; text-align: center; gap: 16px; }
+            .footer-left, .footer-right { justify-content: center; gap: 16px; }
         }
 
         @media (min-width: 769px) and (max-width: 1024px) {
             .gallery-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
-</head><body>
+</head>
+<body>
 
 <nav>
     <div class="nav-brand">Priofix</div>
-    <div class="nav-links">
-        <a href="#Club">Club</a>
-        <a href="#Insights">Insights</a>
-        <a href="#About">About</a>
-        <a href="#Contact">Consultation</a>
-    </div>
-    <button class="nav-cta">Sign in</button>
-</nav>
-<!--Mobile Nav-->
-<nav class="navbar">
-    <div class="logo">Priofix</div>
     
-    <ul class="nav-menu">
-        <li class="nav-item"><a href="#Club" class="nav-link">Club</a></li>
-        <li class="nav-item"><a href="#Insights" class="nav-link">Insights</a></li>
-        <li class="nav-item"><a href="#About" class="nav-link">About</a></li>
-        <li class="nav-item"><a href="#Contact" class="nav-link">Consultation</a></li>
-        <li class="nav-item sign-up-btn">Sign up</li> 
-        <li class="nav-item btn btn-s">Create Account</li> 
-    </ul>
+    <div class="nav-menu">
+        <div class="nav-links">
+            <a href="#Club" class="nav-link">Club</a>
+            <a href="#Insights" class="nav-link">Insights</a>
+            <a href="#About" class="nav-link">About</a>
+            <a href="#Contact" class="nav-link">Consultation</a>
+        </div>
+        <button class="nav-cta">Sign in</button>
+    </div>
 
     <div class="hamburger">
         <span class="bar"></span>
@@ -518,6 +208,7 @@
         <span class="bar"></span>
     </div>
 </nav>
+
 <div class="video-wrap">
     <video id="vid" autoplay muted loop playsinline></video>
     <div class="video-overlay" style="background:linear-gradient(to bottom,rgba(0,0,0,0.5),rgba(0,0,0,0.7))"></div>
@@ -528,7 +219,7 @@
     <h1>Where Imagination<br>Meets Execution</h1>
     <p class="sub">Just copy, paste and make it yours. <em>India's first UI/UX online brand that can make your website </em><strong>Unbelievable.</strong></p>
     <div class="btns">
-        <button class="nav-cta">Sign in</button>
+        <button class="btn btn-p" onclick="document.querySelector('.nav-cta').click()">Sign in</button>
         <button class="btn btn-s">Create account</button>
     </div>
 </div>
@@ -542,12 +233,8 @@
 })()
 </script>
 
-<!-- ══════════════════════════════════════
-     CLUB — PROMPT GALLERY
-══════════════════════════════════════ -->
 <section id="Club" id="club-section">
 <div class="club-inner">
-
     <div class="club-header">
         <div class="club-header-left">
             <span class="section-tag">For You</span>
@@ -562,10 +249,7 @@
             <button class="filter-pill" onclick="filterGallery('ecommerce', this)">E-Commerce</button>
         </div>
     </div>
-
     <div class="gallery-grid" id="galleryGrid">
-
-        <!-- Card 1 -->
         <div class="gallery-card" data-category="agency" data-prompt="Build a dark-themed agency hero section using React + Vite + Tailwind CSS. Full-screen layout with a fixed glassmorphism navbar. Hero headline in 96px Instrument Serif italic with a white-to-transparent gradient. Subtext in 18px Inter at 55% opacity. Two CTAs: solid white primary button and ghost secondary. Background: full-screen looping video with gradient overlay (top-to-bottom, black 0% → transparent 40% → black 100%). Add a horizontal logo marquee at the bottom with 8 client placeholders. Animate headline with staggered fade-up on load using framer-motion. No generic slop — Awwwards-level motion only.">
             <div class="card-visual" style="background: linear-gradient(135deg, #0d0d0d 0%, #1a0a2e 50%, #0d0d0d 100%);">
                 <div class="card-visual-inner">
@@ -584,7 +268,6 @@
                     <div class="card-tags">
                         <span class="card-tag">Agency</span>
                         <span class="card-tag">Video BG</span>
-                        <span class="card-tag">Marquee</span>
                     </div>
                 </div>
                 <div class="card-stack-icon">
@@ -593,275 +276,15 @@
                 </div>
             </div>
         </div>
-
-        <!-- Card 2 -->
-        <div class="gallery-card" data-category="saas" data-prompt="Create a SaaS hero section in React + Tailwind v4. Light theme with an off-white (#F9F8F6) background. Centered layout, 80px bold sans-serif headline using Manrope, letter-spacing -0.04em. Gradient accent text on keyword. Below headline: 3 feature pills in a row (icon + label). Primary CTA: pill-shaped black button with arrow icon. Secondary: text link 'Watch demo →'. Visual: floating UI dashboard mockup card with subtle drop-shadow and 3D tilt on hover (CSS perspective transform). Animate card entrance with spring physics. Add subtle dot-grid background pattern via CSS radial-gradient. Clean, minimal, no noise.">
-            <div class="card-visual" style="background: linear-gradient(160deg, #f9f8f6 0%, #eef2ff 60%, #f9f8f6 100%);">
-                <div class="card-visual-inner">
-                    <div class="card-preview-text" style="color:#6366f1; opacity:0.25;">Ship faster.<br>Scale smarter.</div>
-                </div>
-                <div class="card-hover-overlay">
-                    <button class="copy-btn" onclick="copyPrompt(this)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                        Copy Prompt
-                    </button>
-                </div>
-            </div>
-            <div class="card-info">
-                <div class="card-meta">
-                    <div class="card-title">Minimal SaaS Light</div>
-                    <div class="card-tags">
-                        <span class="card-tag">SaaS</span>
-                        <span class="card-tag">Light</span>
-                        <span class="card-tag">3D Tilt</span>
-                    </div>
-                </div>
-                <div class="card-stack-icon">
-                    <div class="stack-dot">R</div>
-                    <div class="stack-dot">TW</div>
-                </div>
-            </div>
         </div>
-
-        <!-- Card 3 -->
-        <div class="gallery-card tall" data-category="portfolio" data-prompt="Build a creative portfolio hero in plain HTML + CSS + vanilla JS. Full-viewport, black background. Name displayed in 120px Instrument Serif italic, white, with a CSS text-stroke outline variant on hover. Role title below in 14px monospace uppercase tracking-widest at 40% opacity, typewriter animation. Magnetic cursor effect: a 40px circle cursor that follows mouse with 0.1 lerp lag, changes color on hoverable elements. Background: animated CSS gradient mesh that shifts slowly (hue-rotate keyframe). Navigation: minimal top-right links only. Bottom left: social links as small text. No frameworks, pure CSS animations only — silky 60fps.">
-            <div class="card-visual" style="background: linear-gradient(200deg, #000 0%, #0f0f0f 40%, #1a1a00 100%); aspect-ratio: 4/5;">
-                <div class="card-visual-inner">
-                    <div class="card-preview-text" style="color:#facc15; font-size: 48px;">Leo<br>Pritam</div>
-                </div>
-                <div class="card-hover-overlay">
-                    <button class="copy-btn" onclick="copyPrompt(this)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                        Copy Prompt
-                    </button>
-                </div>
-            </div>
-            <div class="card-info">
-                <div class="card-meta">
-                    <div class="card-title">Magnetic Portfolio</div>
-                    <div class="card-tags">
-                        <span class="card-tag">Portfolio</span>
-                        <span class="card-tag">Cursor FX</span>
-                        <span class="card-tag">Typewriter</span>
-                    </div>
-                </div>
-                <div class="card-stack-icon">
-                    <div class="stack-dot">H</div>
-                    <div class="stack-dot">JS</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="gallery-card" data-category="fintech" data-prompt="Design a fintech hero section in React + Tailwind. Dark navy (#040D21) background. Large 88px headline: 'Your money, finally intelligent.' — Inter ExtraBold, letter-spacing -0.03em. Gradient on 'intelligent': blue-to-cyan. Subtext 18px, 50% white. CTA row: pill black button 'Get Early Access' + text 'No credit card required' in 12px muted. Below: live animated number counter showing AUM in billions, ticking up on mount. Visual: glass-morphism card showing portfolio balance, sparkline chart, and percentage gain — floating at right with subtle rotation (-3deg). Add particle field background (50 dots, slow drift) in canvas. Mobile: stack vertically, hide card.">
-            <div class="card-visual" style="background: linear-gradient(135deg, #040d21 0%, #0a1628 50%, #051020 100%);">
-                <div class="card-visual-inner">
-                    <div class="card-preview-text" style="color:#38bdf8;">Your money,<br>intelligent.</div>
-                </div>
-                <div class="card-hover-overlay">
-                    <button class="copy-btn" onclick="copyPrompt(this)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                        Copy Prompt
-                    </button>
-                </div>
-            </div>
-            <div class="card-info">
-                <div class="card-meta">
-                    <div class="card-title">Fintech Dark Navy</div>
-                    <div class="card-tags">
-                        <span class="card-tag">Fintech</span>
-                        <span class="card-tag">Particles</span>
-                        <span class="card-tag">Counter</span>
-                    </div>
-                </div>
-                <div class="card-stack-icon">
-                    <div class="stack-dot">R</div>
-                    <div class="stack-dot">TW</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 5 -->
-        <div class="gallery-card" data-category="ecommerce" data-prompt="Build a luxury e-commerce hero in HTML + CSS. Full-bleed split layout: left half dark (#0C0C0C), right half warm cream (#F5EFE0). Left side: oversized product name in 110px Instrument Serif italic, white. 'Shop Now' CTA in outline style. Right side: product image placeholder (aspect-ratio 3/4, border-radius 4px) with a slow zoom-in animation on load. Diagonal split using CSS clip-path. Horizontal scrolling product category strip below using overflow-x: auto, no scrollbar. Font: Instrument Serif for display, Manrope for UI. Hover on product image: scale(1.04) with 0.6s ease. No JavaScript — pure CSS only.">
-            <div class="card-visual" style="background: linear-gradient(90deg, #0c0c0c 50%, #f5efe0 50%);">
-                <div class="card-visual-inner" style="flex-direction: row; align-items: stretch; gap: 0;">
-                    <div style="flex:1; display:flex; align-items:center; justify-content:center;">
-                        <div class="card-preview-text" style="color:#fff; font-size:22px; opacity:0.2;">MAISON<br>NOIRE</div>
-                    </div>
-                    <div style="flex:1; display:flex; align-items:center; justify-content:center;">
-                        <div style="width:50px; height:70px; background:rgba(0,0,0,0.08); border-radius:4px;"></div>
-                    </div>
-                </div>
-                <div class="card-hover-overlay">
-                    <button class="copy-btn" onclick="copyPrompt(this)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                        Copy Prompt
-                    </button>
-                </div>
-            </div>
-            <div class="card-info">
-                <div class="card-meta">
-                    <div class="card-title">Luxury Split Hero</div>
-                    <div class="card-tags">
-                        <span class="card-tag">E-Commerce</span>
-                        <span class="card-tag">Split Layout</span>
-                        <span class="card-tag">CSS Only</span>
-                    </div>
-                </div>
-                <div class="card-stack-icon">
-                    <div class="stack-dot">H</div>
-                    <div class="stack-dot">CSS</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 6 -->
-        <div class="gallery-card" data-category="agency" data-prompt="Create a brutalist agency hero in React. White (#FFFFFF) background, black (#000) text. Giant 140px black headline 'WORK.' stacked vertically, Manrope Black, no letter spacing. Red (#FF2600) accent on a single word. Nav: black bar with white text links and a red CTA button. Layout: asymmetric — headline flush left, a 300x400 image card overlapping the headline on the right at -5deg rotation. Hover on image: rotation springs to 0deg. Thin black horizontal rules as dividers. Minimal JS — only for the spring rotation effect (use requestAnimationFrame). Loud, editorial, intentional.">
-            <div class="card-visual" style="background: #fff;">
-                <div class="card-visual-inner">
-                    <div class="card-preview-text" style="color:#000; opacity:0.12; font-size:64px; font-family:'Manrope',sans-serif; font-weight:900;">WORK.</div>
-                    <div style="position:absolute; right:20%; top:20%; width:36px; height:50px; background:#ff2600; opacity:0.7; transform: rotate(-5deg); border-radius:2px;"></div>
-                </div>
-                <div class="card-hover-overlay" style="background:rgba(0,0,0,0.6);">
-                    <button class="copy-btn" onclick="copyPrompt(this)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                        Copy Prompt
-                    </button>
-                </div>
-            </div>
-            <div class="card-info">
-                <div class="card-meta">
-                    <div class="card-title">Brutalist Editorial</div>
-                    <div class="card-tags">
-                        <span class="card-tag">Agency</span>
-                        <span class="card-tag">Brutalist</span>
-                        <span class="card-tag">Bold</span>
-                    </div>
-                </div>
-                <div class="card-stack-icon">
-                    <div class="stack-dot">R</div>
-                    <div class="stack-dot">TW</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 7 -->
-        <div class="gallery-card tall" data-category="saas" data-prompt="Build a glassmorphism SaaS hero in React + Tailwind v4. Background: animated gradient blob mesh (3 blobs, purple/blue/teal, slow CSS animation, blur(80px)). Frosted glass card in center: backdrop-filter: blur(20px), bg white/10, border white/20. Inside card: product UI mockup with fake metric widgets. Headline above card: 64px, white, Manrope SemiBold. Subtext at 16px. CTA button: white pill, black text. Badge above headline: 'Now in Beta' with pulsing green dot. All text outside card has drop-shadow for legibility. Framer-motion: card slides up on mount, blobs animate continuously. Mobile: hide blobs, solid bg.">
-            <div class="card-visual" style="background: linear-gradient(135deg, #1a0a3e 0%, #0a1a3e 50%, #0a2e2e 100%); aspect-ratio: 4/5; overflow: hidden;">
-                <div style="position:absolute; width:120px; height:120px; border-radius:50%; background:rgba(139,92,246,0.4); filter:blur(30px); top:20%; left:10%; animation: blobDrift 8s ease-in-out infinite;"></div>
-                <div style="position:absolute; width:100px; height:100px; border-radius:50%; background:rgba(59,130,246,0.4); filter:blur(30px); top:40%; right:15%; animation: blobDrift 10s ease-in-out infinite reverse;"></div>
-                <div class="card-visual-inner">
-                    <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:16px; width:70%; backdrop-filter:blur(10px);">
-                        <div style="height:6px; background:rgba(255,255,255,0.15); border-radius:3px; margin-bottom:8px;"></div>
-                        <div style="height:4px; background:rgba(255,255,255,0.08); border-radius:3px; width:60%;"></div>
-                        <div style="display:flex; gap:6px; margin-top:12px;">
-                            <div style="flex:1; height:28px; background:rgba(139,92,246,0.3); border-radius:6px;"></div>
-                            <div style="flex:1; height:28px; background:rgba(59,130,246,0.2); border-radius:6px;"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-hover-overlay">
-                    <button class="copy-btn" onclick="copyPrompt(this)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                        Copy Prompt
-                    </button>
-                </div>
-            </div>
-            <div class="card-info">
-                <div class="card-meta">
-                    <div class="card-title">Glassmorphism SaaS</div>
-                    <div class="card-tags">
-                        <span class="card-tag">SaaS</span>
-                        <span class="card-tag">Glassmorphism</span>
-                        <span class="card-tag">Blobs</span>
-                    </div>
-                </div>
-                <div class="card-stack-icon">
-                    <div class="stack-dot">R</div>
-                    <div class="stack-dot">FM</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 8 -->
-        <div class="gallery-card" data-category="portfolio" data-prompt="Build a Three.js scroll-driven tunnel hero in vanilla JS. Full-screen canvas behind all content. Tunnel made of 60 rectangular rings, each slightly smaller, rotating slowly as user scrolls (map scrollY to camera z-position). Rings: LineSegments with EdgesGeometry, white color at 30% opacity. Background: #000. Lighting: none — wireframe aesthetic only. On top of canvas: centered text 'Entering the void' in 48px Instrument Serif italic, white. Scroll progress bar: thin white line at top, 1px height, fills left-to-right. Mobile: reduce rings to 30, disable scroll animation, show static.">
-            <div class="card-visual" style="background: #000; position:relative; overflow:hidden;">
-                <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.25;" viewBox="0 0 320 200">
-                    <rect x="10" y="10" width="300" height="180" fill="none" stroke="white" stroke-width="0.5"/>
-                    <rect x="30" y="25" width="260" height="150" fill="none" stroke="white" stroke-width="0.4"/>
-                    <rect x="55" y="42" width="210" height="116" fill="none" stroke="white" stroke-width="0.35"/>
-                    <rect x="80" y="58" width="160" height="84" fill="none" stroke="white" stroke-width="0.3"/>
-                    <rect x="105" y="72" width="110" height="56" fill="none" stroke="white" stroke-width="0.25"/>
-                    <rect x="130" y="84" width="60" height="32" fill="none" stroke="white" stroke-width="0.2"/>
-                    <rect x="148" y="92" width="24" height="16" fill="none" stroke="white" stroke-width="0.15"/>
-                </svg>
-                <div class="card-visual-inner">
-                    <div class="card-preview-text" style="font-family:'Instrument Serif',serif; font-size:18px; opacity:0.4; font-style:italic;">Entering<br>the void</div>
-                </div>
-                <div class="card-hover-overlay">
-                    <button class="copy-btn" onclick="copyPrompt(this)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                        Copy Prompt
-                    </button>
-                </div>
-            </div>
-            <div class="card-info">
-                <div class="card-meta">
-                    <div class="card-title">Three.js Tunnel Scroll</div>
-                    <div class="card-tags">
-                        <span class="card-tag">Portfolio</span>
-                        <span class="card-tag">Three.js</span>
-                        <span class="card-tag">Scroll FX</span>
-                    </div>
-                </div>
-                <div class="card-stack-icon">
-                    <div class="stack-dot">3J</div>
-                    <div class="stack-dot">JS</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 9 -->
-        <div class="gallery-card" data-category="ecommerce" data-prompt="Create a fragrance / scented-candle brand hero in HTML + CSS. Warm, moody dark theme: background #0D0A07. Full-width layout. Left: 80px headline 'Scent the moment.' in Instrument Serif, cream (#F5EFE0) color, italic. Below: 2-line product descriptor in 14px Manrope, muted. 'Shop Collection' CTA: pill with cream border, cream text, hover fills cream/black. Right: product image container with warm amber glow — box-shadow: 0 0 80px rgba(251,191,36,0.2). Thin horizontal amber divider line separating nav from hero. Subtle grain overlay via CSS noise SVG background. No JS — pure CSS elegance.">
-            <div class="card-visual" style="background: linear-gradient(135deg, #0d0a07 0%, #1a1006 60%, #0d0a07 100%);">
-                <div style="position:absolute; width:80px; height:80px; border-radius:50%; background:rgba(251,191,36,0.15); filter:blur(20px); top:30%; right:25%;"></div>
-                <div class="card-visual-inner">
-                    <div class="card-preview-text" style="color:#f5efe0; font-family:'Instrument Serif',serif; font-style:italic; font-size:22px;">Scent<br>the moment.</div>
-                </div>
-                <div class="card-hover-overlay">
-                    <button class="copy-btn" onclick="copyPrompt(this)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                        Copy Prompt
-                    </button>
-                </div>
-            </div>
-            <div class="card-info">
-                <div class="card-meta">
-                    <div class="card-title">Scentra — Warm Brand</div>
-                    <div class="card-tags">
-                        <span class="card-tag">E-Commerce</span>
-                        <span class="card-tag">Luxury</span>
-                        <span class="card-tag">CSS Only</span>
-                    </div>
-                </div>
-                <div class="card-stack-icon">
-                    <div class="stack-dot">H</div>
-                    <div class="stack-dot">CSS</div>
-                </div>
-            </div>
-        </div>
-
-    </div><!-- /gallery-grid -->
-</div><!-- /club-inner -->
+</div>
 </section>
-<!--About-->
+
 <section class="section" id="About" style="padding-top: 60px; padding-bottom: 60px;">
     <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 24px; padding: 80px 40px; text-align: center; position: relative; overflow: hidden;">
         <div style="position: absolute; top: -50%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%); pointer-events: none;"></div>
-        
         <span class="section-tag">Our Story</span>
         <h2 style="font-size: 48px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 24px; font-family: 'Instrument Serif', serif; font-style: italic;">Established in 2025.</h2>
-        
         <p style="font-size: 18px; color: rgba(255,255,255,0.6); max-width: 700px; margin: 0 auto; line-height: 1.6;">
             We recognized a universal struggle: developers and UI/UX designers constantly wrestling with the friction between imagination and code. Creating truly good, jaw-dropping web design was taking too much time and requiring too much boilerplate. 
         </p>
@@ -871,7 +294,6 @@
     </div>
 </section>
 
-<!-- Case Studies -->
 <section class="section" id="Insights">
     <span class="section-tag">Case Studies</span>
     <h2>Featured Deployments</h2>
@@ -892,11 +314,12 @@
         <h2>Ready to scale?</h2>
         <p class="sub" style="margin: 0 auto 32px auto;">Join 50+ companies building the future on Priofix.</p>
         <div class="btns" style="justify-content: center;">
-            <button class="btn btn-p">Create Account</button>
+            <button class="btn btn-p" onclick="document.querySelector('.nav-cta').click()">Create Account</button>
             <button class="btn btn-s">Book a Demo</button>
         </div>
     </div>
 </section>
+
 <footer class="site-footer">
     <div class="footer-inner">
         <div class="footer-left">
@@ -912,12 +335,12 @@
 </footer>
 
 <div class="toast" id="toast">Prompt copied ✓</div>
+
 <div id="authModal" class="auth-modal-overlay">
     <div class="auth-modal">
         <button id="closeModalBtn" class="close-btn" style="display: none;">&times;</button>
         <div class="nav-brand" style="margin-bottom: 24px; font-size: 20px;">Priofix</div>
         <h3 style="font-size: 24px; margin-bottom: 12px; letter-spacing: -0.02em;">Join the Club</h3>
-        
         <p id="authMessage" style="font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 24px;">Sign in or create an account to unlock premium prompts.</p>
         
         <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
@@ -932,25 +355,33 @@
     </div>
 </div>
 
-<style>
-@keyframes blobDrift {
-    0%, 100% { transform: translate(0, 0); }
-    33% { transform: translate(20px, -15px); }
-    66% { transform: translate(-15px, 10px); }
-}
-</style>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+// --- Navigation & Hamburger Logic ---
+const hamburger = document.querySelector(".hamburger");
+const navMenu = document.querySelector(".nav-menu");
+
+hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    navMenu.classList.toggle("active");
+});
+
+// Close menu when a link is clicked
+document.querySelectorAll(".nav-link").forEach(link => 
+    link.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        navMenu.classList.remove("active");
+    })
+);
+
+// --- Supabase & Auth Logic ---
 console.log("1. Script loaded! Setting up Supabase...");
 
-// Initialize Supabase (ONLY DECLARED ONCE!)
 const SUPABASE_URL = 'https://woklfxbdlnjwkulirmga.supabase.co'; 
 const SUPABASE_ANON_KEY = 'sb_publishable_NE8DuhcY4OtaN0PpEfyuQQ_ZTreKvq6';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// State & Elements
 let currentUser = null;
 const authModal = document.getElementById('authModal');
 const closeModalBtn = document.getElementById('closeModalBtn');
@@ -959,7 +390,6 @@ const emailInput = document.getElementById('emailInput');
 const passwordInput = document.getElementById('passwordInput');
 const navCta = document.querySelector('.nav-cta'); 
 
-// Check Auth Status on Load
 async function checkUser() {
     console.log("2. Checking if user is logged in...");
     const { data: { session } } = await supabaseClient.auth.getSession();
@@ -979,7 +409,6 @@ async function checkUser() {
 
 checkUser();
 
-// Modal Logic
 function showAuthModal() {
     authModal.classList.add('show');
     closeModalBtn.style.display = 'none';
@@ -994,72 +423,53 @@ function hideAuthModal() {
 
 closeModalBtn.addEventListener('click', hideAuthModal);
 
-// Sign Up Logic
 document.getElementById('signUpBtn').addEventListener('click', async () => {
-    console.log("Sign Up button clicked!");
     const email = emailInput.value;
     const password = passwordInput.value;
-    
     if(!email || !password) {
         authMessage.innerText = "Please enter both email and password.";
         authMessage.style.color = "#ff4444";
         return;
     }
-    
     authMessage.innerText = "Creating account...";
-    
     const { data, error } = await supabaseClient.auth.signUp({ email, password });
     
     if (error) {
-        console.error("Sign Up Error:", error);
         authMessage.innerText = error.message;
         authMessage.style.color = "#ff4444";
     } else {
-        console.log("Sign Up Success!", data);
         authMessage.innerText = "Account created! You are now signed in.";
         authMessage.style.color = "#00C851";
-        setTimeout(() => {
-            hideAuthModal();
-            checkUser(); 
-        }, 1500);
+        setTimeout(() => { hideAuthModal(); checkUser(); }, 1500);
     }
 });
 
-// Sign In Logic
 document.getElementById('signInBtn').addEventListener('click', async () => {
-    console.log("Sign In button clicked!");
     const email = emailInput.value;
     const password = passwordInput.value;
-    
     if(!email || !password) {
         authMessage.innerText = "Please enter both email and password.";
         authMessage.style.color = "#ff4444";
         return;
     }
-
     authMessage.innerText = "Signing in...";
-    
     const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
     
     if (error) {
-        console.error("Sign In Error:", error);
         authMessage.innerText = error.message;
         authMessage.style.color = "#ff4444";
     } else {
-        console.log("Sign In Success!", data);
         hideAuthModal();
         checkUser(); 
     }
 });
 
-// Sign Out Logic
 async function signOut() {
     await supabaseClient.auth.signOut();
     checkUser(); 
     alert("You have been signed out.");
 }
 
-// Protected Copy Prompt Function
 window.copyPrompt = function(btn) {
     if (!currentUser) {
         showAuthModal(); 
@@ -1067,7 +477,6 @@ window.copyPrompt = function(btn) {
         authMessage.style.color = "#ff4444";
         return;
     }
-
     var card = btn.closest('.gallery-card');
     var prompt = card.getAttribute('data-prompt');
     navigator.clipboard.writeText(prompt).then(function() {
@@ -1077,7 +486,6 @@ window.copyPrompt = function(btn) {
     });
 }
 
-// Gallery Filter
 window.filterGallery = function(cat, pill) {
     document.querySelectorAll('.filter-pill').forEach(function(p) { p.classList.remove('active'); });
     pill.classList.add('active');
@@ -1089,24 +497,6 @@ window.filterGallery = function(cat, pill) {
         }
     });
 }
-// Select the hamburger icon and the navigation menu
-const hamburger = document.querySelector(".hamburger");
-const navMenu = document.querySelector(".nav-menu");
-
-// Toggle the 'active' class when the hamburger is clicked
-hamburger.addEventListener("click", () => {
-    hamburger.classList.toggle("active");
-    navMenu.classList.toggle("active");
-});
-
-// Optional: Close the menu when a link is clicked
-document.querySelectorAll(".nav-link").forEach(link => 
-    link.addEventListener("click", () => {
-        hamburger.classList.remove("active");
-        navMenu.classList.remove("active");
-    })
-);
 </script>
-
 </body>
 </html>
