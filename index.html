@@ -18,7 +18,86 @@
         .nav-links { display: flex; gap: 24px; font-size: 13px; color: rgba(255,255,255,0.55) }
         .nav-links a { text-decoration: none; color: inherit; transition: color 0.2s }
         .nav-cta { padding: 7px 18px; border-radius: 8px; font-size: 12px; font-weight: 500; background: #fff; color: #000; border: none; cursor: pointer }
-    
+        /* --- Base Navbar Styles (Desktop) --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .nav-menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        /* --- Hamburger Icon Styles --- */
+        .hamburger {
+            display: none; /* Hidden on desktop */
+            cursor: pointer;
+        }
+        
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            -webkit-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
+            background-color: #333;
+        }
+        
+        /* --- Mobile Styles (Screens smaller than 768px) --- */
+        @media only screen and (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%; /* Hides the menu completely off-screen to the left */
+                top: 60px; /* Adjust based on your navbar height */
+                flex-direction: column;
+                background-color: #fff;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+                padding: 2rem 0;
+            }
+        
+            .nav-menu.active {
+                left: 0; /* Slides the menu in when the 'active' class is added */
+            }
+        
+            .nav-item {
+                margin: 1.5rem 0;
+            }
+        
+            .hamburger {
+                display: block; /* Shows the hamburger icon on mobile */
+            }
+        
+            /* Optional: Hamburger to 'X' Animation */
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
         .video-wrap { 
             position: fixed;
             inset: 0; 
@@ -446,7 +525,25 @@
     </div>
     <button class="nav-cta">Sign in</button>
 </nav>
+<!--Mobile Nav-->
+<nav class="navbar">
+    <div class="logo">Priofix</div>
+    
+    <ul class="nav-menu">
+        <li class="nav-item"><a href="#Club" class="nav-link">Club</a></li>
+        <li class="nav-item"><a href="#Insights" class="nav-link">Insights</a></li>
+        <li class="nav-item"><a href="#About" class="nav-link">About</a></li>
+        <li class="nav-item"><a href="#Contact" class="nav-link">Consultation</a></li>
+        <li class="nav-item sign-up-btn">Sign up</li> 
+        <li class="nav-item btn btn-s">Create Account</li> 
+    </ul>
 
+    <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </div>
+</nav>
 <div class="video-wrap">
     <video id="vid" autoplay muted loop playsinline></video>
     <div class="video-overlay" style="background:linear-gradient(to bottom,rgba(0,0,0,0.5),rgba(0,0,0,0.7))"></div>
@@ -457,8 +554,8 @@
     <h1>Where Imagination<br>Meets Execution</h1>
     <p class="sub">Just copy, paste and make it yours. <em>India's first UI/UX online brand that can make your website </em><strong>Unbelievable.</strong></p>
     <div class="btns">
-        <button class="btn btn-p">Sign in</button>
-        <button class="btn btn-s">Go to Club</button>
+        <button class="nav-cta">Sign in</button>
+        <button class="nav-cta">Create account</button>
     </div>
 </div>
 
@@ -1018,6 +1115,24 @@ window.filterGallery = function(cat, pill) {
         }
     });
 }
+// Select the hamburger icon and the navigation menu
+const hamburger = document.querySelector(".hamburger");
+const navMenu = document.querySelector(".nav-menu");
+
+// Toggle the 'active' class when the hamburger is clicked
+hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    navMenu.classList.toggle("active");
+});
+
+// Optional: Close the menu when a link is clicked
+document.querySelectorAll(".nav-link").forEach(link => 
+    link.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        navMenu.classList.remove("active");
+    })
+);
 </script>
+
 </body>
 </html>
