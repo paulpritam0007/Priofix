@@ -636,6 +636,49 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+// --- Modal View Toggle Logic (Must be declared early so openSignUp can use it) ---
+let isSignUpView = false;
+
+const authTitle = document.getElementById('authTitle');
+const authMessage = document.getElementById('authMessage');
+const nameInput = document.getElementById('nameInput');
+const dobInput = document.getElementById('dobInput');
+const emailInput = document.getElementById('emailInput');
+const passwordInput = document.getElementById('passwordInput');
+const confirmPasswordInput = document.getElementById('confirmPasswordInput');
+const primaryAuthActionBtn = document.getElementById('primaryAuthActionBtn');
+const toggleViewBtn = document.getElementById('toggleViewBtn');
+
+toggleViewBtn.addEventListener('click', () => {
+    isSignUpView = !isSignUpView;
+    
+    if (isSignUpView) {
+        // Show Sign Up Form
+        authTitle.innerText = "Create an Account";
+        authMessage.innerText = "Fill in your details to join the club.";
+        nameInput.style.display = "block";
+        dobInput.style.display = "block";
+        confirmPasswordInput.style.display = "block";
+        passwordInput.placeholder = "New Passkey";
+        primaryAuthActionBtn.innerText = "Register";
+        toggleViewBtn.innerText = "Already have an account? Sign In";
+        toggleViewBtn.style.background = "transparent";
+        toggleViewBtn.style.border = "none";
+    } else {
+        // Revert back to Sign In Form
+        authTitle.innerText = "Join the Club";
+        authMessage.innerText = "Sign in or create an account to unlock premium prompts.";
+        nameInput.style.display = "none";
+        dobInput.style.display = "none";
+        confirmPasswordInput.style.display = "none";
+        passwordInput.placeholder = "Password";
+        primaryAuthActionBtn.innerText = "Sign In";
+        toggleViewBtn.innerText = "Create Account";
+        toggleViewBtn.style.background = "rgba(255,255,255,0.08)";
+        toggleViewBtn.style.border = "1px solid rgba(255,255,255,0.12)";
+    }
+});
+
 // --- Navigation & Hamburger Logic ---
 const hamburger = document.querySelector(".hamburger");
 const navMenu = document.querySelector(".nav-menu");
@@ -645,7 +688,6 @@ hamburger.addEventListener("click", () => {
     navMenu.classList.toggle("active");
 });
 
-// Close menu when a link is clicked
 document.querySelectorAll(".nav-link").forEach(link => 
     link.addEventListener("click", () => {
         hamburger.classList.remove("active");
@@ -663,9 +705,6 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
 let currentUser = null;
 const authModal = document.getElementById('authModal');
 const closeModalBtn = document.getElementById('closeModalBtn');
-const authMessage = document.getElementById('authMessage');
-const emailInput = document.getElementById('emailInput');
-const passwordInput = document.getElementById('passwordInput');
 const navCta = document.querySelector('.nav-cta'); 
 
 async function checkUser() {
@@ -692,13 +731,12 @@ function showAuthModal() {
     closeModalBtn.style.display = 'none';
     setTimeout(() => { closeModalBtn.style.display = 'flex'; }, 2500);
 }
-// Function to specifically open the Create Account view
+
+// Fixed Hero openSignUp Function
 function openSignUp() {
-    showAuthModal(); // Opens the modal
-    
-    // If the modal is currently on the "Sign In" view, toggle it back to "Sign Up"
-    if (!isSignUpMode) {
-        document.getElementById('toggleAuthModeBtn').click(); 
+    showAuthModal(); 
+    if (!isSignUpView) {
+        toggleViewBtn.click(); 
     }
 }
 
@@ -710,44 +748,50 @@ function hideAuthModal() {
 
 closeModalBtn.addEventListener('click', hideAuthModal);
 
-document.getElementById('signUpBtn').addEventListener('click', async () => {
+// Unified Authentication Action (Handles both Sign Up and Sign In)
+primaryAuthActionBtn.addEventListener('click', async () => {
     const email = emailInput.value;
     const password = passwordInput.value;
+    
     if(!email || !password) {
         authMessage.innerText = "Please enter both email and password.";
         authMessage.style.color = "#ff4444";
         return;
     }
-    authMessage.innerText = "Creating account...";
-    const { data, error } = await supabaseClient.auth.signUp({ email, password });
-    
-    if (error) {
-        authMessage.innerText = error.message;
-        authMessage.style.color = "#ff4444";
-    } else {
-        authMessage.innerText = "Account created! You are now signed in.";
-        authMessage.style.color = "#00C851";
-        setTimeout(() => { hideAuthModal(); checkUser(); }, 1500);
-    }
-});
 
-document.getElementById('signInBtn').addEventListener('click', async () => {
-    const email = emailInput.value;
-    const password = passwordInput.value;
-    if(!email || !password) {
-        authMessage.innerText = "Please enter both email and password.";
-        authMessage.style.color = "#ff4444";
-        return;
-    }
-    authMessage.innerText = "Signing in...";
-    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-    
-    if (error) {
-        authMessage.innerText = error.message;
-        authMessage.style.color = "#ff4444";
+    if (isSignUpView) {
+        // --- SIGN UP LOGIC ---
+        const confirmPass = confirmPasswordInput.value;
+        if (password !== confirmPass) {
+            authMessage.innerText = "Passkeys do not match.";
+            authMessage.style.color = "#ff4444";
+            return;
+        }
+
+        authMessage.innerText = "Creating account...";
+        // Note: You can pass name and DOB to Supabase metadata here if needed in the future
+        const { data, error } = await supabaseClient.auth.signUp({ email, password });
+        
+        if (error) {
+            authMessage.innerText = error.message;
+            authMessage.style.color = "#ff4444";
+        } else {
+            authMessage.innerText = "Account created! You are now signed in.";
+            authMessage.style.color = "#00C851";
+            setTimeout(() => { hideAuthModal(); checkUser(); }, 1500);
+        }
     } else {
-        hideAuthModal();
-        checkUser(); 
+        // --- SIGN IN LOGIC ---
+        authMessage.innerText = "Signing in...";
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        
+        if (error) {
+            authMessage.innerText = error.message;
+            authMessage.style.color = "#ff4444";
+        } else {
+            hideAuthModal();
+            checkUser(); 
+        }
     }
 });
 
@@ -784,58 +828,6 @@ window.filterGallery = function(cat, pill) {
         }
     });
 }
-    // --- Modal View Toggle Logic ---
-let isSignUpView = false;
-
-const authTitle = document.getElementById('authTitle');
-const authMessage = document.getElementById('authMessage');
-const nameInput = document.getElementById('nameInput');
-const dobInput = document.getElementById('dobInput');
-const passwordInput = document.getElementById('passwordInput');
-const confirmPasswordInput = document.getElementById('confirmPasswordInput');
-const primaryAuthActionBtn = document.getElementById('primaryAuthActionBtn');
-const toggleViewBtn = document.getElementById('toggleViewBtn');
-
-toggleViewBtn.addEventListener('click', () => {
-    isSignUpView = !isSignUpView;
-    
-    if (isSignUpView) {
-        // Show Sign Up Form
-        authTitle.innerText = "Create an Account";
-        authMessage.innerText = "Fill in your details to join the club.";
-        
-        nameInput.style.display = "block";
-        dobInput.style.display = "block";
-        confirmPasswordInput.style.display = "block";
-        
-        passwordInput.placeholder = "New Passkey";
-        
-        primaryAuthActionBtn.innerText = "Register";
-        toggleViewBtn.innerText = "Already have an account? Sign In";
-        
-        // Optional: Remove background border from the secondary button to make it look like a text link
-        toggleViewBtn.style.background = "transparent";
-        toggleViewBtn.style.border = "none";
-        
-    } else {
-        // Revert back to Sign In Form
-        authTitle.innerText = "Join the Club";
-        authMessage.innerText = "Sign in or create an account to unlock premium prompts.";
-        
-        nameInput.style.display = "none";
-        dobInput.style.display = "none";
-        confirmPasswordInput.style.display = "none";
-        
-        passwordInput.placeholder = "Password";
-        
-        primaryAuthActionBtn.innerText = "Sign In";
-        toggleViewBtn.innerText = "Create Account";
-        
-        // Restore secondary button styling
-        toggleViewBtn.style.background = "rgba(255,255,255,0.08)";
-        toggleViewBtn.style.border = "1px solid rgba(255,255,255,0.12)";
-    }
-});
 </script>
 </body>
 </html>
