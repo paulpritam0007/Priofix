@@ -258,6 +258,80 @@
             pointer-events: none;
         }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        /* ── FOOTER ── */
+        .site-footer {
+            position: relative;
+            z-index: 10;
+            background: #0d0d0d;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 40px 32px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-left, .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-brand {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -0.02em;
+        }
+
+        .site-footer a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .site-footer a:hover {
+            color: #fff;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            nav { padding: 12px 20px; }
+            .nav-links { display: none; }
+            .hero { padding: 100px 20px 60px 20px; }
+            h1 { font-size: 42px; line-height: 1.2; }
+            .sub { font-size: 15px; margin-bottom: 24px; }
+            .btns { flex-direction: column; width: 100%; gap: 12px; }
+            .btn { width: 100%; text-align: center; }
+            .section { padding: 60px 20px; }
+            h2 { font-size: 32px; }
+            .stack-grid { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .project-card { padding: 30px 20px; aspect-ratio: 1/1; }
+            .cta-wrap h2 { font-size: 36px; }
+
+            .gallery-grid { grid-template-columns: 1fr; }
+            .club-header { flex-direction: column; align-items: flex-start; }
+            .club-inner { padding: 0 20px; }
+            #club-section { padding: 60px 0 80px; }
+
+            /* Footer Mobile */
+            .footer-inner { flex-direction: column; justify-content: center; text-align: center; gap: 16px; }
+            .footer-left, .footer-right { justify-content: center; gap: 16px; }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+        }
 
         /* Projects Section */
         .stack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); margin-top: 40px; }
@@ -676,6 +750,19 @@
         </div>
     </div>
 </section>
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-left">
+            <span class="footer-brand">Priofix</span>
+            <a href="#">Instagram</a>
+            <a href="mailto:hello@priofix.com">Email</a>
+        </div>
+        <div class="footer-right">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+        </div>
+    </div>
+</footer>
 
 <div class="toast" id="toast">Prompt copied ✓</div>
 
