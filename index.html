@@ -863,59 +863,115 @@
 }
 </style>
 
-<script>
-// Mock Authentication State (Replace this with actual Firebase/Supabase logic later)
-let isLoggedIn = false; 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-// Modal Elements
+<script>
+// 1. Initialize Supabase
+const SUPABASE_URL = 'https://woklfxbdlnjwkulirmga.supabase.co'; // <--- Project Url 
+const SUPABASE_ANON_KEY = 'sb_publishable_NE8DuhcY4OtaN0PpEfyuQQ_ZTreKvq6'; // Anon key
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// State & Elements
+let currentUser = null;
 const authModal = document.getElementById('authModal');
 const closeModalBtn = document.getElementById('closeModalBtn');
+const authMessage = document.getElementById('authMessage');
+const emailInput = document.getElementById('emailInput');
+const passwordInput = document.getElementById('passwordInput');
+const navCta = document.querySelector('.nav-cta'); // The top nav button
 
-// Function to show the modal
+// 2. Check Auth Status on Load
+async function checkUser() {
+    const { data: { session } } = await supabase.auth.getSession();
+    currentUser = session?.user || null;
+    
+    if (currentUser) {
+        navCta.innerText = "Sign Out";
+        navCta.onclick = signOut;
+    } else {
+        navCta.innerText = "Sign in";
+        navCta.onclick = showAuthModal;
+        // Trigger modal after 1.5s if not logged in
+        setTimeout(showAuthModal, 1500);
+    }
+}
+
+// Run check immediately
+checkUser();
+
+// 3. Modal Logic
 function showAuthModal() {
     authModal.classList.add('show');
-    
-    // Hide the close button initially, show it after 2.5 seconds
     closeModalBtn.style.display = 'none';
-    setTimeout(() => {
-        closeModalBtn.style.display = 'flex';
-    }, 2500);
+    // Show close button after 2.5 seconds
+    setTimeout(() => { closeModalBtn.style.display = 'flex'; }, 2500);
 }
 
-// Function to hide the modal
 function hideAuthModal() {
     authModal.classList.remove('show');
+    authMessage.innerText = "Sign in or create an account to unlock premium prompts.";
+    authMessage.style.color = "rgba(255,255,255,0.5)";
 }
 
-// Trigger modal 1 second after page loads if user is not logged in
-window.addEventListener('load', () => {
-    if (!isLoggedIn) {
+closeModalBtn.addEventListener('click', hideAuthModal);
+
+// 4. Sign Up Logic
+document.getElementById('signUpBtn').addEventListener('click', async () => {
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    
+    authMessage.innerText = "Creating account...";
+    
+    const { data, error } = await supabase.auth.signUp({ email, password });
+    
+    if (error) {
+        authMessage.innerText = error.message;
+        authMessage.style.color = "#ff4444";
+    } else {
+        authMessage.innerText = "Account created! You are now signed in.";
+        authMessage.style.color = "#00C851";
         setTimeout(() => {
-            showAuthModal();
-        }, 1000); 
+            hideAuthModal();
+            checkUser(); // Refresh state
+        }, 1500);
     }
 });
 
-// Close button event listener
-closeModalBtn.addEventListener('click', hideAuthModal);
+// 5. Sign In Logic
+document.getElementById('signInBtn').addEventListener('click', async () => {
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    
+    authMessage.innerText = "Signing in...";
+    
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    
+    if (error) {
+        authMessage.innerText = error.message;
+        authMessage.style.color = "#ff4444";
+    } else {
+        hideAuthModal();
+        checkUser(); // Refresh state
+    }
+});
 
-// Mock login function for the modal button
-function simulateLogin() {
-    isLoggedIn = true;
-    hideAuthModal();
-    alert("You are now signed in! You can copy prompts.");
-    // In production, this button would trigger your Firebase/Supabase flow.
+// 6. Sign Out Logic
+async function signOut() {
+    await supabase.auth.signOut();
+    checkUser(); // Refresh state
+    alert("You have been signed out.");
 }
 
-// UPDATED Copy Prompt Function
-function copyPrompt(btn) {
-    // 1. Check if user is logged in
-    if (!isLoggedIn) {
-        showAuthModal(); // Force them to log in
-        return; // Stop the copy process
+// 7. Protected Copy Prompt Function
+window.copyPrompt = function(btn) {
+    if (!currentUser) {
+        showAuthModal(); // Block copy and show modal
+        authMessage.innerText = "You must be signed in to copy this prompt.";
+        authMessage.style.color = "#ff4444";
+        return;
     }
 
-    // 2. If logged in, proceed with copying
+    // Proceed if logged in
     var card = btn.closest('.gallery-card');
     var prompt = card.getAttribute('data-prompt');
     navigator.clipboard.writeText(prompt).then(function() {
@@ -925,8 +981,8 @@ function copyPrompt(btn) {
     });
 }
 
-// Existing Filter Function
-function filterGallery(cat, pill) {
+// 8. Gallery Filter (Existing)
+window.filterGallery = function(cat, pill) {
     document.querySelectorAll('.filter-pill').forEach(function(p) { p.classList.remove('active'); });
     pill.classList.add('active');
     document.querySelectorAll('.gallery-card').forEach(function(card) {
