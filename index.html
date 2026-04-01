@@ -254,20 +254,53 @@
     <div class="gallery-grid" id="galleryGrid">
  
         <!-- Card 1 -->
-        <div class="gallery-card" data-category="agency" data-prompt="">
-            
-            <img src="graphity.gif" alt="Graphity">
-            <div class="card-visual" style="background: linear-gradient(135deg, #0d0d0d 0%, #1a0a2e 50%, #0d0d0d 100%);">
-                <div class="card-visual-inner">
+       <div class="gallery-card" data-category="agency" data-prompt="### Cinematic LED Tunnel Hero Prompt
+
+**Role:** Senior UI/UX Designer & Creative Frontend Engineer.
+**Task:** Create a high-fidelity, production-ready hero section for 'Graphity', a premium product design education platform.
+
+**Visual Aesthetic & Theme:**
+- **Base Style:** Minimalist, high-contrast, 'Linear-meets-Stripe' aesthetic.
+- **Color Palette:** Absolute black background (#000000) with deep violet (#7C3AED) accents.
+- **Design System:** Use the 'Graphity Obsidian' tokens (Manrope font, rounded-lg corners, glassmorphism).
+
+**Background Specification (The 'LED Tunnel'):**
+- **Effect:** Implement a CSS-animated 'LED Tunnel' background contained *only* within the hero section.
+- **Visuals:** Many thin, violet radiating lines or strips (#7C3AED) originating from the center and zooming outward toward the user.
+- **Motion:** A continuous, smooth 'warp speed' or 'zooming' effect. Use `absolute inset-0` and `overflow-hidden` for the container to ensure it stays behind content and doesn't bleed into other sections.
+- **Atmosphere:** Subtle glow/blur on the lines to create a cinematic, high-energy feel.
+
+**Component Structure:**
+1. **Navigation Bar:** Fixed, glassmorphic (backdrop-blur-xl), rounded-full, containing the Graphity logo, 'Courses,' 'Mentors,' 'Archive' links, and a 'Get Access' primary button.
+2. **Hero Content:** 
+    - **Headline:** 'Design at the Edge of Possibility.' (Large, bold, Manrope, high contrast).
+    - **Sub-headline:** Supporting text about mastering tonal depth and cinematic motion.
+    - **Primary CTA:** 'Start Your Journey' button in solid violet (#7C3AED) with smooth hover scaling.
+    - **Secondary CTA:** 'View Curriculum' text link with a trailing arrow icon.
+
+**Technical & Interaction Rules:**
+- **Layout:** Mobile-first, fully responsive (sm, md, lg, xl).
+- **Z-Indexing:** Background tunnel at `z-0`, content at `z-10`, Navigation at `z-50`.
+- **Transitions:** Hover interactions (buttons, links) must be under 250ms with `ease-out`.
+- **Stack:** Semantic HTML5, Tailwind CSS, and Vanilla JavaScript for the animation logic if needed (prefer CSS keyframes for performance).
+- **Accessibility:** Ensure high contrast for text over the animated background.
+
+**Output:** Provide the complete, production-ready HTML and Tailwind CSS code.">
+            <div class="card-visual">
+                <img src="graphity.gif" alt="Graphity" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
+                
+                <div class="card-visual-inner" style="z-index: 1;">
                     <div class="card-preview-text" style="color:#a78bfa;">We Build<br>Digital Legends</div>
                 </div>
-                <div class="card-hover-overlay">
+                
+                <div class="card-hover-overlay" style="z-index: 2;">
                     <button class="copy-btn" onclick="copyPrompt(this)">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                         Copy Prompt
                     </button>
                 </div>
             </div>
+            
             <div class="card-info">
                 <div class="card-meta">
                     <div class="card-title">Dark Agency Hero</div>
@@ -283,7 +316,7 @@
                 </div>
             </div>
         </div>
- 
+         
         <!-- Card 2 -->
         <div class="gallery-card" data-category="saas" data-prompt="Create a SaaS hero section in React + Tailwind v4. Light theme with an off-white (#F9F8F6) background. Centered layout, 80px bold sans-serif headline using Manrope, letter-spacing -0.04em. Gradient accent text on keyword. Below headline: 3 feature pills in a row (icon + label). Primary CTA: pill-shaped black button with arrow icon. Secondary: text link 'Watch demo →'. Visual: floating UI dashboard mockup card with subtle drop-shadow and 3D tilt on hover (CSS perspective transform). Animate card entrance with spring physics. Add subtle dot-grid background pattern via CSS radial-gradient. Clean, minimal, no noise.">
             <div class="card-visual" style="background: linear-gradient(160deg, #f9f8f6 0%, #eef2ff 60%, #f9f8f6 100%);">
