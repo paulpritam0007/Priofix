@@ -353,10 +353,79 @@
         </div>
          
         <!-- Card 2 — normal (16/10) -->
-        <div class="gallery-card" data-category="saas" data-prompt="Create a SaaS hero section in React + Tailwind v4. Light theme with an off-white (#F9F8F6) background. Centered layout, 80px bold sans-serif headline using Manrope, letter-spacing -0.04em. Gradient accent text on keyword. Below headline: 3 feature pills in a row (icon + label). Primary CTA: pill-shaped black button with arrow icon. Secondary: text link 'Watch demo →'. Visual: floating UI dashboard mockup card with subtle drop-shadow and 3D tilt on hover (CSS perspective transform). Animate card entrance with spring physics. Add subtle dot-grid background pattern via CSS radial-gradient. Clean, minimal, no noise.">
+        <div class="gallery-card" data-category="saas" data-prompt="Create a single-page hero section with a fullscreen looping background video, glassmorphic navigation, and cinematic typography. Use React + Vite + Tailwind CSS + TypeScript with shadcn/ui.
+
+Video Background:
+
+Fullscreen <video> element with autoPlay, loop, muted, playsInline.
+
+Source URL: https://res.cloudinary.com/dk2lu1txa/video/upload/q_auto/f_auto/v1775146051/Subtle_Motion_Video_Generation_o2ybmp.mp4
+
+Attributes: Positioned absolute inset-0 w-full h-full object-cover z-0 brightness-90 contrast-[1.1].
+
+Fonts:
+
+Import from Google Fonts: Instrument Serif (display) and Inter weights 400/500 (body).
+
+CSS variables: --font-display: 'Instrument Serif', serif and --font-body: 'Inter', sans-serif.
+
+Application: Body uses var(--font-body), headings use inline fontFamily: 'Instrument Serif, serif'.
+
+Color Theme (Dark, HSL values for CSS variables):
+
+--background: 222 47% 10% (Deep navy surface)
+
+--foreground: 210 40% 98% (Off-white/on-surface)
+
+--muted-foreground: 215 20% 65% (Soft blue-grey)
+
+--primary: 330 100% 85% (Pink tulip accent)
+
+--accent: 48 100% 71% (Firefly yellow)
+
+--border: 217 32% 17%
+
+Navigation Bar:
+
+relative z-10, flex row, justify-between, px-8 md:px-16 py-8.
+
+Logo: 'Priofix®' (® as <sup className='text-xs'>), text-3xl italic tracking-tighter, Instrument Serif font, text-primary.
+
+Nav links (hidden on mobile, lg:flex): Home (active, text-primary), Gallery, Journal — text-sm font-medium tracking-widest uppercase text-muted-foreground hover:text-foreground transition-all.
+
+CTA button: 'Join Us', .liquid-glass rounded-full px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-foreground hover:scale-[1.05].
+
+Hero Section:
+
+relative z-10, flex column, items-center, justify-center, h-full, text-center, px-6.
+
+H1: 'A canvas of starlight.' — text-5xl md:text-8xl, leading-[0.95], tracking-[-0.03em], max-w-4xl, font-normal, Instrument Serif. Wrap 'starlight.' in <em className='not-italic text-primary'>.
+
+Subtext: text-muted-foreground text-lg md:text-xl max-w-xl mt-5 leading-relaxed — 'Step into a world where every brushstroke breathes life into the night. We build quiet, beautiful digital spaces for dreamers and creators.'
+
+CTA Group: Flex row/col, gap-8, mt-14. Primary button: 'Join Now', .liquid-glass rounded-full px-14 py-4 text-lg. Secondary: 'Watch Magic' with play_circle icon.
+
+Liquid Glass Effect (CSS class .liquid-glass):
+
+CSS
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+Animations:
+
+@keyframes fade-rise { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+.animate-fade-rise (0.8s), .animate-fade-rise-delay (0.2s delay), .animate-fade-rise-delay-2 (0.4s delay).
+
+Apply to H1, Subtext, and CTA Group respectively.">
             <div class="card-visual" style="background: linear-gradient(160deg, #f9f8f6 0%, #eef2ff 60%, #f9f8f6 100%);">
                 <div class="card-visual-inner">
-                    <div class="card-preview-text" style="color:#6366f1; opacity:0.25;">Ship faster.<br>Scale smarter.</div>
+                    <img src="ghibli1.gif" alt="Ghibli" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
                 </div>
                 <div class="card-hover-overlay">
                     <button class="copy-btn" onclick="copyPrompt(this)">
@@ -369,9 +438,9 @@
                 <div class="card-meta">
                     <div class="card-title">Minimal SaaS Light</div>
                     <div class="card-tags">
-                        <span class="card-tag">SaaS</span>
-                        <span class="card-tag">Light</span>
-                        <span class="card-tag">3D Tilt</span>
+                        <span class="card-tag">Landing</span>
+                        <span class="card-tag">Dark</span>
+                        <span class="card-tag">Motion Designing</span>
                     </div>
                 </div>
                 <div class="card-stack-icon">
