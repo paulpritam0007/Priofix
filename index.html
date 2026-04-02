@@ -28,7 +28,6 @@
         
         .nav-brand { font-size: 15px; font-weight: 600; letter-spacing: -0.02em; z-index: 51; }
         
-        /* Wrapper for desktop links and CTA */
         .nav-menu {
             display: flex;
             align-items: center;
@@ -40,7 +39,6 @@
         .nav-links a:hover { color: #fff; }
         .nav-cta { padding: 7px 18px; border-radius: 8px; font-size: 12px; font-weight: 500; background: #fff; color: #000; border: none; cursor: pointer }
         
-        /* Hamburger Icon */
         .hamburger { display: none; cursor: pointer; z-index: 51; }
         .bar {
             display: block; width: 25px; height: 3px; margin: 5px auto;
@@ -88,10 +86,42 @@
         .filter-pill { padding: 7px 16px; border-radius: 999px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.5); transition: all 0.2s; letter-spacing: 0.02em; }
         .filter-pill:hover, .filter-pill.active { background: #fff; color: #000; border-color: #fff; }
 
-        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        .gallery-card { position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); background: #111; cursor: pointer; transition: border-color 0.3s, transform 0.3s; }
+        /* =====================================================
+           PINTEREST / MASONRY GALLERY — CSS columns approach
+           Cards keep their own natural height (no aspect-ratio
+           forced from the outside). Each .card-visual has its
+           own aspect-ratio set inline on the element itself.
+           ===================================================== */
+        .gallery-grid {
+            column-count: 3;
+            column-gap: 16px;
+        }
+
+        .gallery-card {
+            break-inside: avoid;          /* never cut a card mid-column */
+            -webkit-column-break-inside: avoid;
+            display: inline-block;        /* required for column layout */
+            width: 100%;
+            margin-bottom: 16px;
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.07);
+            background: #111;
+            cursor: pointer;
+            transition: border-color 0.3s, transform 0.3s;
+        }
         .gallery-card:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-3px); }
-        .card-visual { width: 100%; aspect-ratio: 16/10; position: relative; overflow: hidden; }
+
+        /* Each card-visual controls its own height via aspect-ratio */
+        .card-visual { width: 100%; position: relative; overflow: hidden; }
+
+        /* Default ratio — normal cards */
+        .gallery-card .card-visual { aspect-ratio: 16/10; }
+
+        /* Tall cards get a portrait ratio */
+        .gallery-card.tall .card-visual { aspect-ratio: 4/5; }
+
         .card-visual-inner { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
         .card-preview-text { font-size: 28px; font-weight: 700; letter-spacing: -0.04em; opacity: 0.18; text-align: center; padding: 0 16px; line-height: 1.1; pointer-events: none; font-family: 'Instrument Serif', serif; }
         
@@ -107,7 +137,6 @@
         .card-tag { font-size: 11px; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07); border-radius: 4px; padding: 2px 7px; }
         .card-stack-icon { display: flex; gap: 4px; flex-shrink: 0; margin-top: 2px; }
         .stack-dot { width: 20px; height: 20px; border-radius: 5px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.5); }
-        .gallery-card.tall .card-visual { aspect-ratio: 4/5; }
 
         /* --- FOOTER & MODALS --- */
         .site-footer { position: relative; z-index: 10; background: #0d0d0d; border-top: 1px solid rgba(255,255,255,0.06); padding: 40px 32px; font-size: 14px; color: rgba(255,255,255,0.5); }
@@ -133,15 +162,14 @@
             66% { transform: translate(-15px, 10px); }
         }
 
-        /* --- MOBILE MEDIA QUERIES (Consolidated) --- */
+        /* --- MOBILE MEDIA QUERIES --- */
         @media only screen and (max-width: 768px) {
             nav { padding: 12px 20px; }
             
-            /* Mobile Navbar Logic */
             .nav-menu {
                 position: fixed;
                 left: -100%;
-                top: 55px; /* Adjust based on navbar height */
+                top: 55px;
                 flex-direction: column;
                 background-color: #000;
                 border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -155,12 +183,10 @@
             .nav-links { flex-direction: column; gap: 24px; font-size: 16px; }
             .hamburger { display: block; }
             
-            /* Hamburger Animation */
             .hamburger.active .bar:nth-child(2) { opacity: 0; }
             .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-            /* General Mobile Layout */
             .hero { padding: 100px 20px 60px 20px; }
             h1 { font-size: 42px; line-height: 1.2; }
             .sub { font-size: 15px; margin-bottom: 24px; }
@@ -173,17 +199,29 @@
             .project-card { padding: 30px 20px; aspect-ratio: 1/1; }
             .cta-wrap h2 { font-size: 36px; }
 
-            .gallery-grid { grid-template-columns: 1fr; }
+            /* Pinterest feed — 2 columns on mobile */
+            .gallery-grid {
+                column-count: 2;
+                column-gap: 10px;
+            }
+            .gallery-card { margin-bottom: 10px; }
+
             .club-header { flex-direction: column; align-items: flex-start; }
-            .club-inner { padding: 0 20px; }
+            .club-inner { padding: 0 14px; }
             #club-section { padding: 60px 0 80px; }
 
             .footer-inner { flex-direction: column; justify-content: center; text-align: center; gap: 16px; }
             .footer-left, .footer-right { justify-content: center; gap: 16px; }
+
+            /* Reduce preview text size on small cards */
+            .card-preview-text { font-size: 18px; }
+            .card-title { font-size: 12px; }
+            .card-tag { font-size: 10px; }
+            .copy-btn { font-size: 11px; padding: 8px 14px; }
         }
 
         @media (min-width: 769px) and (max-width: 1024px) {
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-grid { column-count: 2; }
         }
     </style>
 </head>
@@ -219,9 +257,9 @@
     <h1>Where Imagination<br>Meets Execution</h1>
     <p class="sub"><em>India's</em> first UI/UX online brand that can make your website <strong>Unbelievable.</strong></p>
     <div class="btns">
-    <button class="btn btn-p" onclick="document.querySelector('.nav-cta').click()">Sign in</button>
-    <button class="btn btn-s" onclick="openSignUp()">Create account</button>
-</div>
+        <button class="btn btn-p" onclick="document.querySelector('.nav-cta').click()">Sign in</button>
+        <button class="btn btn-s" onclick="openSignUp()">Create account</button>
+    </div>
 </div>
 
 <script>
@@ -253,8 +291,8 @@
  
     <div class="gallery-grid" id="galleryGrid">
  
-        <!-- Card 1 -->
-       <div class="gallery-card" data-category="agency" data-prompt="### Cinematic LED Tunnel Hero Prompt
+        <!-- Card 1 — normal (16/10) -->
+        <div class="gallery-card" data-category="agency" data-prompt="### Cinematic LED Tunnel Hero Prompt
 
 **Role:** Senior UI/UX Designer & Creative Frontend Engineer.
 **Task:** Create a high-fidelity, production-ready hero section for 'Graphity', a premium product design education platform.
@@ -288,11 +326,9 @@
 **Output:** Provide the complete, production-ready HTML and Tailwind CSS code.">
             <div class="card-visual">
                 <img src="graphity.gif" alt="Graphity" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
-                
                 <div class="card-visual-inner" style="z-index: 1;">
                     <div class="card-preview-text" style="color:#a78bfa;">We Build<br>Digital Legends</div>
                 </div>
-                
                 <div class="card-hover-overlay" style="z-index: 2;">
                     <button class="copy-btn" onclick="copyPrompt(this)">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
@@ -300,7 +336,6 @@
                     </button>
                 </div>
             </div>
-            
             <div class="card-info">
                 <div class="card-meta">
                     <div class="card-title">Dark Agency Hero</div>
@@ -317,7 +352,7 @@
             </div>
         </div>
          
-        <!-- Card 2 -->
+        <!-- Card 2 — normal (16/10) -->
         <div class="gallery-card" data-category="saas" data-prompt="Create a SaaS hero section in React + Tailwind v4. Light theme with an off-white (#F9F8F6) background. Centered layout, 80px bold sans-serif headline using Manrope, letter-spacing -0.04em. Gradient accent text on keyword. Below headline: 3 feature pills in a row (icon + label). Primary CTA: pill-shaped black button with arrow icon. Secondary: text link 'Watch demo →'. Visual: floating UI dashboard mockup card with subtle drop-shadow and 3D tilt on hover (CSS perspective transform). Animate card entrance with spring physics. Add subtle dot-grid background pattern via CSS radial-gradient. Clean, minimal, no noise.">
             <div class="card-visual" style="background: linear-gradient(160deg, #f9f8f6 0%, #eef2ff 60%, #f9f8f6 100%);">
                 <div class="card-visual-inner">
@@ -346,9 +381,9 @@
             </div>
         </div>
  
-        <!-- Card 3 -->
+        <!-- Card 3 — TALL (4/5) -->
         <div class="gallery-card tall" data-category="portfolio" data-prompt="Build a creative portfolio hero in plain HTML + CSS + vanilla JS. Full-viewport, black background. Name displayed in 120px Instrument Serif italic, white, with a CSS text-stroke outline variant on hover. Role title below in 14px monospace uppercase tracking-widest at 40% opacity, typewriter animation. Magnetic cursor effect: a 40px circle cursor that follows mouse with 0.1 lerp lag, changes color on hoverable elements. Background: animated CSS gradient mesh that shifts slowly (hue-rotate keyframe). Navigation: minimal top-right links only. Bottom left: social links as small text. No frameworks, pure CSS animations only — silky 60fps.">
-            <div class="card-visual" style="background: linear-gradient(200deg, #000 0%, #0f0f0f 40%, #1a1a00 100%); aspect-ratio: 4/5;">
+            <div class="card-visual" style="background: linear-gradient(200deg, #000 0%, #0f0f0f 40%, #1a1a00 100%);">
                 <div class="card-visual-inner">
                     <div class="card-preview-text" style="color:#facc15; font-size: 48px;">Leo<br>Pritam</div>
                 </div>
@@ -375,7 +410,7 @@
             </div>
         </div>
  
-        <!-- Card 4 -->
+        <!-- Card 4 — normal (16/10) -->
         <div class="gallery-card" data-category="fintech" data-prompt="Design a fintech hero section in React + Tailwind. Dark navy (#040D21) background. Large 88px headline: 'Your money, finally intelligent.' — Inter ExtraBold, letter-spacing -0.03em. Gradient on 'intelligent': blue-to-cyan. Subtext 18px, 50% white. CTA row: pill black button 'Get Early Access' + text 'No credit card required' in 12px muted. Below: live animated number counter showing AUM in billions, ticking up on mount. Visual: glass-morphism card showing portfolio balance, sparkline chart, and percentage gain — floating at right with subtle rotation (-3deg). Add particle field background (50 dots, slow drift) in canvas. Mobile: stack vertically, hide card.">
             <div class="card-visual" style="background: linear-gradient(135deg, #040d21 0%, #0a1628 50%, #051020 100%);">
                 <div class="card-visual-inner">
@@ -404,7 +439,7 @@
             </div>
         </div>
  
-        <!-- Card 5 -->
+        <!-- Card 5 — normal (16/10) -->
         <div class="gallery-card" data-category="ecommerce" data-prompt="Build a luxury e-commerce hero in HTML + CSS. Full-bleed split layout: left half dark (#0C0C0C), right half warm cream (#F5EFE0). Left side: oversized product name in 110px Instrument Serif italic, white. 'Shop Now' CTA in outline style. Right side: product image placeholder (aspect-ratio 3/4, border-radius 4px) with a slow zoom-in animation on load. Diagonal split using CSS clip-path. Horizontal scrolling product category strip below using overflow-x: auto, no scrollbar. Font: Instrument Serif for display, Manrope for UI. Hover on product image: scale(1.04) with 0.6s ease. No JavaScript — pure CSS only.">
             <div class="card-visual" style="background: linear-gradient(90deg, #0c0c0c 50%, #f5efe0 50%);">
                 <div class="card-visual-inner" style="flex-direction: row; align-items: stretch; gap: 0;">
@@ -438,7 +473,7 @@
             </div>
         </div>
  
-        <!-- Card 6 -->
+        <!-- Card 6 — normal (16/10) -->
         <div class="gallery-card" data-category="agency" data-prompt="Create a brutalist agency hero in React. White (#FFFFFF) background, black (#000) text. Giant 140px black headline 'WORK.' stacked vertically, Manrope Black, no letter spacing. Red (#FF2600) accent on a single word. Nav: black bar with white text links and a red CTA button. Layout: asymmetric — headline flush left, a 300x400 image card overlapping the headline on the right at -5deg rotation. Hover on image: rotation springs to 0deg. Thin black horizontal rules as dividers. Minimal JS — only for the spring rotation effect (use requestAnimationFrame). Loud, editorial, intentional.">
             <div class="card-visual" style="background: #fff;">
                 <div class="card-visual-inner">
@@ -468,9 +503,9 @@
             </div>
         </div>
  
-        <!-- Card 7 -->
+        <!-- Card 7 — TALL (4/5) -->
         <div class="gallery-card tall" data-category="saas" data-prompt="Build a glassmorphism SaaS hero in React + Tailwind v4. Background: animated gradient blob mesh (3 blobs, purple/blue/teal, slow CSS animation, blur(80px)). Frosted glass card in center: backdrop-filter: blur(20px), bg white/10, border white/20. Inside card: product UI mockup with fake metric widgets. Headline above card: 64px, white, Manrope SemiBold. Subtext at 16px. CTA button: white pill, black text. Badge above headline: 'Now in Beta' with pulsing green dot. All text outside card has drop-shadow for legibility. Framer-motion: card slides up on mount, blobs animate continuously. Mobile: hide blobs, solid bg.">
-            <div class="card-visual" style="background: linear-gradient(135deg, #1a0a3e 0%, #0a1a3e 50%, #0a2e2e 100%); aspect-ratio: 4/5; overflow: hidden;">
+            <div class="card-visual" style="background: linear-gradient(135deg, #1a0a3e 0%, #0a1a3e 50%, #0a2e2e 100%); overflow: hidden;">
                 <div style="position:absolute; width:120px; height:120px; border-radius:50%; background:rgba(139,92,246,0.4); filter:blur(30px); top:20%; left:10%; animation: blobDrift 8s ease-in-out infinite;"></div>
                 <div style="position:absolute; width:100px; height:100px; border-radius:50%; background:rgba(59,130,246,0.4); filter:blur(30px); top:40%; right:15%; animation: blobDrift 10s ease-in-out infinite reverse;"></div>
                 <div class="card-visual-inner">
@@ -506,7 +541,7 @@
             </div>
         </div>
  
-        <!-- Card 8 -->
+        <!-- Card 8 — normal (16/10) -->
         <div class="gallery-card" data-category="portfolio" data-prompt="Build a Three.js scroll-driven tunnel hero in vanilla JS. Full-screen canvas behind all content. Tunnel made of 60 rectangular rings, each slightly smaller, rotating slowly as user scrolls (map scrollY to camera z-position). Rings: LineSegments with EdgesGeometry, white color at 30% opacity. Background: #000. Lighting: none — wireframe aesthetic only. On top of canvas: centered text 'Entering the void' in 48px Instrument Serif italic, white. Scroll progress bar: thin white line at top, 1px height, fills left-to-right. Mobile: reduce rings to 30, disable scroll animation, show static.">
             <div class="card-visual" style="background: #000; position:relative; overflow:hidden;">
                 <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:0.25;" viewBox="0 0 320 200">
@@ -544,7 +579,7 @@
             </div>
         </div>
  
-        <!-- Card 9 -->
+        <!-- Card 9 — normal (16/10) -->
         <div class="gallery-card" data-category="ecommerce" data-prompt="Create a fragrance / scented-candle brand hero in HTML + CSS. Warm, moody dark theme: background #0D0A07. Full-width layout. Left: 80px headline 'Scent the moment.' in Instrument Serif, cream (#F5EFE0) color, italic. Below: 2-line product descriptor in 14px Manrope, muted. 'Shop Collection' CTA: pill with cream border, cream text, hover fills cream/black. Right: product image container with warm amber glow — box-shadow: 0 0 80px rgba(251,191,36,0.2). Thin horizontal amber divider line separating nav from hero. Subtle grain overlay via CSS noise SVG background. No JS — pure CSS elegance.">
             <div class="card-visual" style="background: linear-gradient(135deg, #0d0a07 0%, #1a1006 60%, #0d0a07 100%);">
                 <div style="position:absolute; width:80px; height:80px; border-radius:50%; background:rgba(251,191,36,0.15); filter:blur(20px); top:30%; right:25%;"></div>
@@ -645,13 +680,9 @@
         
         <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
             <input type="text" id="nameInput" placeholder="Full Name" style="display: none; padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
-            
             <input type="date" id="dobInput" style="display: none; padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none; color-scheme: dark;">
-            
             <input type="email" id="emailInput" placeholder="Email address" style="padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
-            
             <input type="password" id="passwordInput" placeholder="Password" style="padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
-            
             <input type="password" id="confirmPasswordInput" placeholder="Confirm Passkey" style="display: none; padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
         </div>
         
@@ -661,17 +692,11 @@
         </div>
     </div>
 </div>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-            <button class="btn btn-p" id="signInBtn" style="width: 100%;">Sign In</button>
-            <button class="btn btn-s" id="signUpBtn" style="width: 100%;">Create Account</button>
-        </div>
-    </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-// --- Modal View Toggle Logic (Must be declared early so openSignUp can use it) ---
+// --- Modal View Toggle Logic ---
 let isSignUpView = false;
 
 const authTitle = document.getElementById('authTitle');
@@ -686,9 +711,7 @@ const toggleViewBtn = document.getElementById('toggleViewBtn');
 
 toggleViewBtn.addEventListener('click', () => {
     isSignUpView = !isSignUpView;
-    
     if (isSignUpView) {
-        // Show Sign Up Form
         authTitle.innerText = "Create an Account";
         authMessage.innerText = "Fill in your details to join the club.";
         nameInput.style.display = "block";
@@ -700,7 +723,6 @@ toggleViewBtn.addEventListener('click', () => {
         toggleViewBtn.style.background = "transparent";
         toggleViewBtn.style.border = "none";
     } else {
-        // Revert back to Sign In Form
         authTitle.innerText = "Join the Club";
         authMessage.innerText = "Sign in or create an account to unlock premium prompts.";
         nameInput.style.display = "none";
@@ -731,8 +753,6 @@ document.querySelectorAll(".nav-link").forEach(link =>
 );
 
 // --- Supabase & Auth Logic ---
-console.log("1. Script loaded! Setting up Supabase...");
-
 const SUPABASE_URL = 'https://woklfxbdlnjwkulirmga.supabase.co'; 
 const SUPABASE_ANON_KEY = 'sb_publishable_NE8DuhcY4OtaN0PpEfyuQQ_ZTreKvq6';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -743,16 +763,12 @@ const closeModalBtn = document.getElementById('closeModalBtn');
 const navCta = document.querySelector('.nav-cta'); 
 
 async function checkUser() {
-    console.log("2. Checking if user is logged in...");
     const { data: { session } } = await supabaseClient.auth.getSession();
     currentUser = session?.user || null;
-    
     if (currentUser) {
-        console.log("User IS logged in:", currentUser.email);
         navCta.innerText = "Sign Out";
         navCta.onclick = signOut;
     } else {
-        console.log("User is NOT logged in.");
         navCta.innerText = "Sign in";
         navCta.onclick = showAuthModal;
         setTimeout(showAuthModal, 1500);
@@ -767,12 +783,9 @@ function showAuthModal() {
     setTimeout(() => { closeModalBtn.style.display = 'flex'; }, 2500);
 }
 
-// Fixed Hero openSignUp Function
 function openSignUp() {
     showAuthModal(); 
-    if (!isSignUpView) {
-        toggleViewBtn.click(); 
-    }
+    if (!isSignUpView) { toggleViewBtn.click(); }
 }
 
 function hideAuthModal() {
@@ -783,30 +796,23 @@ function hideAuthModal() {
 
 closeModalBtn.addEventListener('click', hideAuthModal);
 
-// Unified Authentication Action (Handles both Sign Up and Sign In)
 primaryAuthActionBtn.addEventListener('click', async () => {
     const email = emailInput.value;
     const password = passwordInput.value;
-    
     if(!email || !password) {
         authMessage.innerText = "Please enter both email and password.";
         authMessage.style.color = "#ff4444";
         return;
     }
-
     if (isSignUpView) {
-        // --- SIGN UP LOGIC ---
         const confirmPass = confirmPasswordInput.value;
         if (password !== confirmPass) {
             authMessage.innerText = "Passkeys do not match.";
             authMessage.style.color = "#ff4444";
             return;
         }
-
         authMessage.innerText = "Creating account...";
-        // Note: You can pass name and DOB to Supabase metadata here if needed in the future
         const { data, error } = await supabaseClient.auth.signUp({ email, password });
-        
         if (error) {
             authMessage.innerText = error.message;
             authMessage.style.color = "#ff4444";
@@ -816,10 +822,8 @@ primaryAuthActionBtn.addEventListener('click', async () => {
             setTimeout(() => { hideAuthModal(); checkUser(); }, 1500);
         }
     } else {
-        // --- SIGN IN LOGIC ---
         authMessage.innerText = "Signing in...";
         const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-        
         if (error) {
             authMessage.innerText = error.message;
             authMessage.style.color = "#ff4444";
