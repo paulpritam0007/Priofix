@@ -294,10 +294,10 @@
         <!-- Card 1 — normal (16/10) -->
         <div class="gallery-card" data-category="agency" data-prompt="### Cinematic LED Tunnel Hero Prompt
 
-**Role:** Senior UI/UX Designer & Creative Frontend Engineer.
+**Role:** Senior UI/UX Designer and Creative Frontend Engineer.
 **Task:** Create a high-fidelity, production-ready hero section for 'Graphity', a premium product design education platform.
 
-**Visual Aesthetic & Theme:**
+**Visual Aesthetic and Theme:**
 - **Base Style:** Minimalist, high-contrast, 'Linear-meets-Stripe' aesthetic.
 - **Color Palette:** Absolute black background (#000000) with deep violet (#7C3AED) accents.
 - **Design System:** Use the 'Graphity Obsidian' tokens (Manrope font, rounded-lg corners, glassmorphism).
@@ -316,7 +316,7 @@
     - **Primary CTA:** 'Start Your Journey' button in solid violet (#7C3AED) with smooth hover scaling.
     - **Secondary CTA:** 'View Curriculum' text link with a trailing arrow icon.
 
-**Technical & Interaction Rules:**
+**Technical and Interaction Rules:**
 - **Layout:** Mobile-first, fully responsive (sm, md, lg, xl).
 - **Z-Indexing:** Background tunnel at `z-0`, content at `z-10`, Navigation at `z-50`.
 - **Transitions:** Hover interactions (buttons, links) must be under 250ms with `ease-out`.
@@ -338,11 +338,11 @@
             </div>
             <div class="card-info">
                 <div class="card-meta">
-                    <div class="card-title">Dark Agency Hero</div>
+                    <div class="card-title">Tunnel dilemma</div>
                     <div class="card-tags">
                         <span class="card-tag">Agency</span>
-                        <span class="card-tag">Video BG</span>
-                        <span class="card-tag">Marquee</span>
+                        <span class="card-tag">Narrow lines</span>
+                        <span class="card-tag">Minimal</span>
                     </div>
                 </div>
                 <div class="card-stack-icon">
@@ -436,11 +436,11 @@ Apply to H1, Subtext, and CTA Group respectively.">
             </div>
             <div class="card-info">
                 <div class="card-meta">
-                    <div class="card-title">Minimal SaaS Light</div>
+                    <div class="card-title">Canvas Ghibli</div>
                     <div class="card-tags">
                         <span class="card-tag">Landing</span>
                         <span class="card-tag">Dark</span>
-                        <span class="card-tag">Motion Designing</span>
+                        <span class="card-tag"></span>
                     </div>
                 </div>
                 <div class="card-stack-icon">
@@ -454,7 +454,7 @@ Apply to H1, Subtext, and CTA Group respectively.">
         <div class="gallery-card tall" data-category="portfolio" data-prompt="Build a creative portfolio hero in plain HTML + CSS + vanilla JS. Full-viewport, black background. Name displayed in 120px Instrument Serif italic, white, with a CSS text-stroke outline variant on hover. Role title below in 14px monospace uppercase tracking-widest at 40% opacity, typewriter animation. Magnetic cursor effect: a 40px circle cursor that follows mouse with 0.1 lerp lag, changes color on hoverable elements. Background: animated CSS gradient mesh that shifts slowly (hue-rotate keyframe). Navigation: minimal top-right links only. Bottom left: social links as small text. No frameworks, pure CSS animations only — silky 60fps.">
             <div class="card-visual" style="background: linear-gradient(200deg, #000 0%, #0f0f0f 40%, #1a1a00 100%);">
                 <div class="card-visual-inner">
-                    <div class="card-preview-text" style="color:#facc15; font-size: 48px;">Leo<br>Pritam</div>
+                    <div class="card-preview-text" style="color:#facc15; font-size: 48px;">Priofix<br>Pritam</div>
                 </div>
                 <div class="card-hover-overlay">
                     <button class="copy-btn" onclick="copyPrompt(this)">
@@ -480,10 +480,79 @@ Apply to H1, Subtext, and CTA Group respectively.">
         </div>
  
         <!-- Card 4 — normal (16/10) -->
-        <div class="gallery-card" data-category="fintech" data-prompt="Design a fintech hero section in React + Tailwind. Dark navy (#040D21) background. Large 88px headline: 'Your money, finally intelligent.' — Inter ExtraBold, letter-spacing -0.03em. Gradient on 'intelligent': blue-to-cyan. Subtext 18px, 50% white. CTA row: pill black button 'Get Early Access' + text 'No credit card required' in 12px muted. Below: live animated number counter showing AUM in billions, ticking up on mount. Visual: glass-morphism card showing portfolio balance, sparkline chart, and percentage gain — floating at right with subtle rotation (-3deg). Add particle field background (50 dots, slow drift) in canvas. Mobile: stack vertically, hide card.">
+        <div class="gallery-card" data-category="fintech" data-prompt="web application/stitch/projects/13787159290502687975/screens/b5d959942e7e4bd38a0358b3651c3485
+# Production Design Specification: Priofix Cinematic Landing Page
+
+## 1. Technical Stack and Foundation
+- **Framework:** React + Vite + TypeScript
+- **Styling:** Tailwind CSS + shadcn/ui
+- **Typography:** 
+  - Body/UI: `Geist Sans` (via @fontsource/geist-sans)
+  - Headlines: `General Sans` (Display weights)
+- **Icons:** Lucide React + Material Symbols Outlined
+
+## 2. Design Tokens (HSL Variable Mapping)
+```css
+:root {
+  --background: 260 87% 3%;      /* Deep midnight navy */
+  --foreground: 40 6% 95%;      /* Off-white text */
+  --primary: 262 83% 58%;       /* Electric purple/violet */
+  --primary-glow: 262 83% 58% / 0.3;
+  --accent-blue: 199 89% 48%;   /* Sky blue accent */
+  --hero-sub: 40 6% 82%;        /* Muted secondary text */
+  --glass-border: 199 89% 48% / 0.1;
+  --radius: 1rem;
+}
+```
+
+## 3. Custom Utility: 'Liquid Glass'
+A high-end glassmorphism effect for cards and buttons.
+- **Attributes:** `backdrop-filter: blur(4px)`, `background: rgba(255, 255, 255, 0.01)`
+- **Border Physics:** 1.4px gradient border using `-webkit-mask-composite` to create a sharp, 'etched' light-catching edge.
+- **Gradient:** `linear-gradient(to bottom right, rgba(125, 211, 252, 0.2), transparent, rgba(200, 160, 240, 0.2))`
+
+## 4. Component Architecture
+
+### A. Cinematic Video Background
+- **Source:** `https://res.cloudinary.com/dk2lu1txa/video/upload/q_auto/f_auto/v1775229304/Video_Generation_Request_Fulfilled_qsmqrk.mp4`
+- **Physics:** `fixed inset-0`, `object-cover`.
+- **Logic:** 500ms fade-in/out transitions using `requestAnimationFrame` for a seamless, atmospheric loop.
+- **Overlays:** 
+  - `bg-background/20` solid tint.
+  - `bg-gradient-to-b from-background via-transparent to-background` (90% vertical coverage) for text legibility.
+
+### B. Navigation and Branding
+- **Navbar:** `fixed top-0`, `h-16`, `backdrop-blur-lg`.
+- **Identity:** 'Priofix' logo in `text-sky-300`, `font-semibold`, `tracking-tighter`.
+- **Interaction:** Nav links with `ChevronDown` icons; 'Get Started' button using `liquid-glass` variant.
+
+### C. Hero Section
+- **Headline:** 'Priofix' at `text-[230px]`, `leading-[0.8]`.
+- **Gradient Fill:** `linear-gradient(223deg, #E8E8E9 0%, #3A7BBF 104.15%)` applied via `-webkit-background-clip: text`.
+- **CTA:** Large `liquid-glass` button with hover-translate-x icon animation.
+
+### D. Social Proof Marquee
+- **Animation:** `marquee 30s linear infinite`.
+- **Logo Tiles:** `liquid-glass` rounded-xl containers (min-width 200px) featuring brand names (ORTHEO, GENTRO, AEOSMO, GORCIA, NOMAN).
+
+### E. Bento Features Grid
+- **Structure:** 12-column grid, `auto-rows-[350px]`, `gap-6`.
+- **Cards:** 
+  - **Neural Designing (Span 8):** Large image background with `scale-105` hover.
+  - **Instant Matches (Span 4):** Icon-centric (Bolt), centered text.
+  - **Creates Engagement (Span 4):** Cyber-security UI visualization.
+  - **Hyper-Personalization (Span 8):** Text left, animated abstract glass pillars right.
+
+## 5. Animation Keyframes
+```css
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+```">
             <div class="card-visual" style="background: linear-gradient(135deg, #040d21 0%, #0a1628 50%, #051020 100%);">
                 <div class="card-visual-inner">
-                    <div class="card-preview-text" style="color:#38bdf8;">Your money,<br>intelligent.</div>
+                    <img src="car.gif" alt="Car technology" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
                 </div>
                 <div class="card-hover-overlay">
                     <button class="copy-btn" onclick="copyPrompt(this)">
@@ -494,11 +563,11 @@ Apply to H1, Subtext, and CTA Group respectively.">
             </div>
             <div class="card-info">
                 <div class="card-meta">
-                    <div class="card-title">Fintech Dark Navy</div>
+                    <div class="card-title">Technology Upgraded</div>
                     <div class="card-tags">
                         <span class="card-tag">Fintech</span>
                         <span class="card-tag">Particles</span>
-                        <span class="card-tag">Counter</span>
+                        <span class="card-tag">Innovation</span>
                     </div>
                 </div>
                 <div class="card-stack-icon">
