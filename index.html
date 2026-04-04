@@ -292,45 +292,14 @@
     <div class="gallery-grid" id="galleryGrid">
  
         <!-- Card 1 — normal (16/10) -->
-        <div class="gallery-card" data-category="agency" data-prompt="### Cinematic LED Tunnel Hero Prompt
-
-**Role:** Senior UI/UX Designer and Creative Frontend Engineer.
-**Task:** Create a high-fidelity, production-ready hero section for 'Graphity', a premium product design education platform.
-
-**Visual Aesthetic and Theme:**
-- **Base Style:** Minimalist, high-contrast, 'Linear-meets-Stripe' aesthetic.
-- **Color Palette:** Absolute black background (#000000) with deep violet (#7C3AED) accents.
-- **Design System:** Use the 'Graphity Obsidian' tokens (Manrope font, rounded-lg corners, glassmorphism).
-
-**Background Specification (The 'LED Tunnel'):**
-- **Effect:** Implement a CSS-animated 'LED Tunnel' background contained *only* within the hero section.
-- **Visuals:** Many thin, violet radiating lines or strips (#7C3AED) originating from the center and zooming outward toward the user.
-- **Motion:** A continuous, smooth 'warp speed' or 'zooming' effect. Use `absolute inset-0` and `overflow-hidden` for the container to ensure it stays behind content and doesn't bleed into other sections.
-- **Atmosphere:** Subtle glow/blur on the lines to create a cinematic, high-energy feel.
-
-**Component Structure:**
-1. **Navigation Bar:** Fixed, glassmorphic (backdrop-blur-xl), rounded-full, containing the Graphity logo, 'Courses,' 'Mentors,' 'Archive' links, and a 'Get Access' primary button.
-2. **Hero Content:** 
-    - **Headline:** 'Design at the Edge of Possibility.' (Large, bold, Manrope, high contrast).
-    - **Sub-headline:** Supporting text about mastering tonal depth and cinematic motion.
-    - **Primary CTA:** 'Start Your Journey' button in solid violet (#7C3AED) with smooth hover scaling.
-    - **Secondary CTA:** 'View Curriculum' text link with a trailing arrow icon.
-
-**Technical and Interaction Rules:**
-- **Layout:** Mobile-first, fully responsive (sm, md, lg, xl).
-- **Z-Indexing:** Background tunnel at `z-0`, content at `z-10`, Navigation at `z-50`.
-- **Transitions:** Hover interactions (buttons, links) must be under 250ms with `ease-out`.
-- **Stack:** Semantic HTML5, Tailwind CSS, and Vanilla JavaScript for the animation logic if needed (prefer CSS keyframes for performance).
-- **Accessibility:** Ensure high contrast for text over the animated background.
-
-**Output:** Provide the complete, production-ready HTML and Tailwind CSS code.">
+        <div class="gallery-card" data-category="agency" data-prompt="https://www.notion.so/Tunnel-dilemma-e9c05edfcd5e4d6a94768a2ee82d239e?source=copy_link">
             <div class="card-visual">
                 <img src="graphity.gif" alt="Graphity" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
                 <div class="card-visual-inner" style="z-index: 1;">
                     <div class="card-preview-text" style="color:#a78bfa;">We Build<br>Digital Legends</div>
                 </div>
                 <div class="card-hover-overlay" style="z-index: 2;">
-                    <button class="copy-btn" onclick="copyPrompt(this)">
+                    <button class="copy-btn" onclick="window.open(this.closest('.gallery-card').dataset.prompt, '_blank')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                         Copy Code
                     </button>
@@ -805,7 +774,7 @@ A high-end glassmorphism effect for cards and buttons.
     </div>
 </footer>
 
-<div class="toast" id="toast">Prompt copied ✓</div>
+<div class="toast" id="toast">Opening in New Tab</div>
 
 <div id="authModal" class="auth-modal-overlay">
     <div class="auth-modal">
