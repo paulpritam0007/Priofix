@@ -615,11 +615,10 @@ A high-end glassmorphism effect for cards and buttons.
         <div class="gallery-card" data-category="agency" data-prompt="https://www.notion.so/Robo-V2-6-c2dc25a15fd14503a95e2d39997c6b65?source=copy_link" target="__blank">
             <div class="card-visual" style="background: #fff;">
                 <div class="card-visual-inner">
-                <img src="robo.gif" alt="Robo V2.6" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
-                    <div style="position:absolute; right:20%; top:20%; width:36px; height:50px; background:#ff2600; opacity:0.7; transform: rotate(-5deg); border-radius:2px;"></div>
+                    <img src="robo.gif" alt="Robo V2.6" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
                 </div>
                 <div class="card-hover-overlay" style="background:rgba(0,0,0,0.6);">
-                    <button class="copy-btn" onclick="copyPrompt(this)">
+                    <button class="copy-btn" onclick="window.open(this.closest('.gallery-card').dataset.prompt, '_blank')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                         Copy Code
                     </button>
