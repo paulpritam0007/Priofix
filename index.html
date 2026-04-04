@@ -322,82 +322,13 @@
         </div>
          
         <!-- Card 2 — normal (16/10) -->
-        <div class="gallery-card" data-category="saas" data-prompt="Create a single-page hero section with a fullscreen looping background video, glassmorphic navigation, and cinematic typography. Use React + Vite + Tailwind CSS + TypeScript with shadcn/ui.
-
-Video Background:
-
-Fullscreen <video> element with autoPlay, loop, muted, playsInline.
-
-Source URL: https://res.cloudinary.com/dk2lu1txa/video/upload/q_auto/f_auto/v1775146051/Subtle_Motion_Video_Generation_o2ybmp.mp4
-
-Attributes: Positioned absolute inset-0 w-full h-full object-cover z-0 brightness-90 contrast-[1.1].
-
-Fonts:
-
-Import from Google Fonts: Instrument Serif (display) and Inter weights 400/500 (body).
-
-CSS variables: --font-display: 'Instrument Serif', serif and --font-body: 'Inter', sans-serif.
-
-Application: Body uses var(--font-body), headings use inline fontFamily: 'Instrument Serif, serif'.
-
-Color Theme (Dark, HSL values for CSS variables):
-
---background: 222 47% 10% (Deep navy surface)
-
---foreground: 210 40% 98% (Off-white/on-surface)
-
---muted-foreground: 215 20% 65% (Soft blue-grey)
-
---primary: 330 100% 85% (Pink tulip accent)
-
---accent: 48 100% 71% (Firefly yellow)
-
---border: 217 32% 17%
-
-Navigation Bar:
-
-relative z-10, flex row, justify-between, px-8 md:px-16 py-8.
-
-Logo: 'Priofix®' (® as <sup className='text-xs'>), text-3xl italic tracking-tighter, Instrument Serif font, text-primary.
-
-Nav links (hidden on mobile, lg:flex): Home (active, text-primary), Gallery, Journal — text-sm font-medium tracking-widest uppercase text-muted-foreground hover:text-foreground transition-all.
-
-CTA button: 'Join Us', .liquid-glass rounded-full px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-foreground hover:scale-[1.05].
-
-Hero Section:
-
-relative z-10, flex column, items-center, justify-center, h-full, text-center, px-6.
-
-H1: 'A canvas of starlight.' — text-5xl md:text-8xl, leading-[0.95], tracking-[-0.03em], max-w-4xl, font-normal, Instrument Serif. Wrap 'starlight.' in <em className='not-italic text-primary'>.
-
-Subtext: text-muted-foreground text-lg md:text-xl max-w-xl mt-5 leading-relaxed — 'Step into a world where every brushstroke breathes life into the night. We build quiet, beautiful digital spaces for dreamers and creators.'
-
-CTA Group: Flex row/col, gap-8, mt-14. Primary button: 'Join Now', .liquid-glass rounded-full px-14 py-4 text-lg. Secondary: 'Watch Magic' with play_circle icon.
-
-Liquid Glass Effect (CSS class .liquid-glass):
-
-CSS
-.liquid-glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-Animations:
-
-@keyframes fade-rise { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-.animate-fade-rise (0.8s), .animate-fade-rise-delay (0.2s delay), .animate-fade-rise-delay-2 (0.4s delay).
-
-Apply to H1, Subtext, and CTA Group respectively.">
+        <div class="gallery-card" data-category="saas" data-prompt="https://www.notion.so/Canvas-ghibli-3e566f8f3f9647d49cdcd96a9de4342c?source=copy_link.">
             <div class="card-visual" style="background: linear-gradient(160deg, #f9f8f6 0%, #eef2ff 60%, #f9f8f6 100%);">
                 <div class="card-visual-inner">
                     <img src="ghibli1.gif" alt="Ghibli" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
                 </div>
                 <div class="card-hover-overlay">
-                    <button class="copy-btn" onclick="copyPrompt(this)">
+                    <button class="copy-btn" onclick="window.open(this.closest('.gallery-card').dataset.prompt, '_blank')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                         Copy Code
                     </button>
@@ -449,82 +380,13 @@ Apply to H1, Subtext, and CTA Group respectively.">
         </div>
  
         <!-- Card 4 — normal (16/10) -->
-        <div class="gallery-card" data-category="fintech" data-prompt="web application/stitch/projects/13787159290502687975/screens/b5d959942e7e4bd38a0358b3651c3485
-# Production Design Specification: Priofix Cinematic Landing Page
-
-## 1. Technical Stack and Foundation
-- **Framework:** React + Vite + TypeScript
-- **Styling:** Tailwind CSS + shadcn/ui
-- **Typography:** 
-  - Body/UI: `Geist Sans` (via @fontsource/geist-sans)
-  - Headlines: `General Sans` (Display weights)
-- **Icons:** Lucide React + Material Symbols Outlined
-
-## 2. Design Tokens (HSL Variable Mapping)
-```css
-:root {
-  --background: 260 87% 3%;      /* Deep midnight navy */
-  --foreground: 40 6% 95%;      /* Off-white text */
-  --primary: 262 83% 58%;       /* Electric purple/violet */
-  --primary-glow: 262 83% 58% / 0.3;
-  --accent-blue: 199 89% 48%;   /* Sky blue accent */
-  --hero-sub: 40 6% 82%;        /* Muted secondary text */
-  --glass-border: 199 89% 48% / 0.1;
-  --radius: 1rem;
-}
-```
-
-## 3. Custom Utility: 'Liquid Glass'
-A high-end glassmorphism effect for cards and buttons.
-- **Attributes:** `backdrop-filter: blur(4px)`, `background: rgba(255, 255, 255, 0.01)`
-- **Border Physics:** 1.4px gradient border using `-webkit-mask-composite` to create a sharp, 'etched' light-catching edge.
-- **Gradient:** `linear-gradient(to bottom right, rgba(125, 211, 252, 0.2), transparent, rgba(200, 160, 240, 0.2))`
-
-## 4. Component Architecture
-
-### A. Cinematic Video Background
-- **Source:** `https://res.cloudinary.com/dk2lu1txa/video/upload/q_auto/f_auto/v1775229304/Video_Generation_Request_Fulfilled_qsmqrk.mp4`
-- **Physics:** `fixed inset-0`, `object-cover`.
-- **Logic:** 500ms fade-in/out transitions using `requestAnimationFrame` for a seamless, atmospheric loop.
-- **Overlays:** 
-  - `bg-background/20` solid tint.
-  - `bg-gradient-to-b from-background via-transparent to-background` (90% vertical coverage) for text legibility.
-
-### B. Navigation and Branding
-- **Navbar:** `fixed top-0`, `h-16`, `backdrop-blur-lg`.
-- **Identity:** 'Priofix' logo in `text-sky-300`, `font-semibold`, `tracking-tighter`.
-- **Interaction:** Nav links with `ChevronDown` icons; 'Get Started' button using `liquid-glass` variant.
-
-### C. Hero Section
-- **Headline:** 'Priofix' at `text-[230px]`, `leading-[0.8]`.
-- **Gradient Fill:** `linear-gradient(223deg, #E8E8E9 0%, #3A7BBF 104.15%)` applied via `-webkit-background-clip: text`.
-- **CTA:** Large `liquid-glass` button with hover-translate-x icon animation.
-
-### D. Social Proof Marquee
-- **Animation:** `marquee 30s linear infinite`.
-- **Logo Tiles:** `liquid-glass` rounded-xl containers (min-width 200px) featuring brand names (ORTHEO, GENTRO, AEOSMO, GORCIA, NOMAN).
-
-### E. Bento Features Grid
-- **Structure:** 12-column grid, `auto-rows-[350px]`, `gap-6`.
-- **Cards:** 
-  - **Neural Designing (Span 8):** Large image background with `scale-105` hover.
-  - **Instant Matches (Span 4):** Icon-centric (Bolt), centered text.
-  - **Creates Engagement (Span 4):** Cyber-security UI visualization.
-  - **Hyper-Personalization (Span 8):** Text left, animated abstract glass pillars right.
-
-## 5. Animation Keyframes
-```css
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-```">
+        <div class="gallery-card" data-category="fintech" data-prompt="https://www.notion.so/Technology-upgraded-5eca3608dd3a48978552477c3340bc91?source=copy_link">
             <div class="card-visual" style="background: linear-gradient(135deg, #040d21 0%, #0a1628 50%, #051020 100%);">
                 <div class="card-visual-inner">
                     <img src="car.gif" alt="Car technology" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
                 </div>
                 <div class="card-hover-overlay">
-                    <button class="copy-btn" onclick="copyPrompt(this)">
+                    <button class="copy-btn" onclick="window.open(this.closest('.gallery-card').dataset.prompt, '_blank')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                         Copy Code
                     </button>
