@@ -802,30 +802,27 @@ async function signOut() {
 }
 
 window.copyPrompt = function(btn) {
+    var card = btn.closest('.gallery-card');
+    var prompt = card.getAttribute('data-prompt');
+
+    // If it's a URL, open in new tab — no auth required
+    if (prompt.startsWith('http')) {
+        window.open(prompt, '_blank');
+        return;
+    }
+
+    // Inline prompt text → require sign-in to copy
     if (!currentUser) {
-        showAuthModal(); 
+        showAuthModal();
         authMessage.innerText = "You must be signed in to copy this prompt.";
         authMessage.style.color = "#ff4444";
         return;
     }
-    var card = btn.closest('.gallery-card');
-    var prompt = card.getAttribute('data-prompt');
+
     navigator.clipboard.writeText(prompt).then(function() {
         var toast = document.getElementById('toast');
         toast.classList.add('show');
         setTimeout(function() { toast.classList.remove('show'); }, 2000);
-    });
-}
-
-window.filterGallery = function(cat, pill) {
-    document.querySelectorAll('.filter-pill').forEach(function(p) { p.classList.remove('active'); });
-    pill.classList.add('active');
-    document.querySelectorAll('.gallery-card').forEach(function(card) {
-        if (cat === 'all' || card.getAttribute('data-category') === cat) {
-            card.style.display = '';
-        } else {
-            card.style.display = 'none';
-        }
     });
 }
 </script>
