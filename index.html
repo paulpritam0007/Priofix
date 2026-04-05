@@ -802,16 +802,6 @@ async function signOut() {
 }
 
 window.copyPrompt = function(btn) {
-    var card = btn.closest('.gallery-card');
-    var prompt = card.getAttribute('data-prompt');
-
-    // If it's a URL, open in new tab — no auth required
-    if (prompt.startsWith('http')) {
-        window.open(prompt, '_blank');
-        return;
-    }
-
-    // Inline prompt text → require sign-in to copy
     if (!currentUser) {
         showAuthModal();
         authMessage.innerText = "You must be signed in to copy this prompt.";
@@ -819,11 +809,18 @@ window.copyPrompt = function(btn) {
         return;
     }
 
-    navigator.clipboard.writeText(prompt).then(function() {
-        var toast = document.getElementById('toast');
-        toast.classList.add('show');
-        setTimeout(function() { toast.classList.remove('show'); }, 2000);
-    });
+    var card = btn.closest('.gallery-card');
+    var prompt = card.getAttribute('data-prompt');
+
+    if (prompt.startsWith('http')) {
+        window.open(prompt, '_blank');
+    } else {
+        navigator.clipboard.writeText(prompt).then(function() {
+            var toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(function() { toast.classList.remove('show'); }, 2000);
+        });
+    }
 }
 </script>
 </body>
