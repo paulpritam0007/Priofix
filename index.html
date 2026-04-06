@@ -607,10 +607,10 @@
 <section class="cta-wrap" id="Contact">
     <div class="section">
         <h2>Ready to scale?</h2>
-        <p class="sub" style="margin: 0 auto 32px auto;">Join 50+ companies building the future on Priofix.</p>
+        <p class="sub" style="margin: 0 auto 32px auto;">Book your free call for 30 mins<strong>Now</strong>.</p>
         <div class="btns" style="justify-content: center;">
             <button class="btn btn-p" onclick="document.querySelector('.nav-cta').click()">Create Account</button>
-            <button class="btn btn-s">Book a Demo</button>
+            <a href="https://formspree.io/f/mzdkyyvg" class="btn btn-s" style="text-decoration: none; display: inline-flex; align-items: center;">Book a Demo</a>
         </div>
     </div>
 </section>
@@ -645,6 +645,8 @@
             <input type="email" id="emailInput" placeholder="Email address" style="padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
             <input type="password" id="passwordInput" placeholder="Password" style="padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
             <input type="password" id="confirmPasswordInput" placeholder="Confirm Passkey" style="display: none; padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
+            <input type="password" id="passwordInput" placeholder="Password">
+            <p id="forgotPasswordLink" style="cursor: pointer; font-size: 13px; color: #aaa; margin: 10px 0; text-align: right;">Forgot password?</p>
         </div>
         
         <div style="display: flex; flex-direction: column; gap: 12px;">
@@ -683,6 +685,7 @@ toggleViewBtn.addEventListener('click', () => {
         toggleViewBtn.innerText = "Already have an account? Sign In";
         toggleViewBtn.style.background = "transparent";
         toggleViewBtn.style.border = "none";
+        forgotPasswordLink.style.display = "none"; // Hide it on Sign Up
     } else {
         authTitle.innerText = "Join the Club";
         authMessage.innerText = "Sign in or create an account to unlock premium prompts.";
@@ -694,6 +697,7 @@ toggleViewBtn.addEventListener('click', () => {
         toggleViewBtn.innerText = "Create Account";
         toggleViewBtn.style.background = "rgba(255,255,255,0.08)";
         toggleViewBtn.style.border = "1px solid rgba(255,255,255,0.12)";
+        forgotPasswordLink.style.display = "block"; // Show it on Sign In
     }
 });
 
@@ -714,6 +718,8 @@ document.querySelectorAll(".nav-link").forEach(link =>
 );
 
 // --- Supabase & Auth Logic ---
+// Add this near the other 'const' declarations at the top
+const forgotPasswordLink = document.getElementById('forgotPasswordLink');
 const SUPABASE_URL = 'https://woklfxbdlnjwkulirmga.supabase.co'; 
 const SUPABASE_ANON_KEY = 'sb_publishable_NE8DuhcY4OtaN0PpEfyuQQ_ZTreKvq6';
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -794,7 +800,41 @@ primaryAuthActionBtn.addEventListener('click', async () => {
         }
     }
 });
+// Forgot Password Logic
+forgotPasswordLink.addEventListener('click', async () => {
+    const email = emailInput.value;
+    
+    if (!email) {
+        authMessage.innerText = "Please enter your email first.";
+        authMessage.style.color = "#ff4444";
+        return;
+    }
 
+    authMessage.innerText = "Sending reset link...";
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.href, 
+    });
+
+    if (error) {
+        authMessage.innerText = error.message;
+        authMessage.style.color = "#ff4444";
+    } else {
+        authMessage.innerText = "Reset link sent! Check your inbox.";
+        authMessage.style.color = "#00C851";
+    }
+});
+
+// Handle the return from the email link
+supabaseClient.auth.onAuthStateChange(async (event, session) => {
+  if (event === "PASSWORD_RECOVERY") {
+    const newPassword = prompt("Enter your new password:");
+    if (newPassword) {
+        const { error } = await supabaseClient.auth.updateUser({ password: newPassword });
+        if (error) alert("Error: " + error.message);
+        else alert("Password updated successfully!");
+    }
+  }
+});
 async function signOut() {
     await supabaseClient.auth.signOut();
     checkUser(); 
