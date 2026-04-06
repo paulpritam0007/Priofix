@@ -607,10 +607,10 @@
 <section class="cta-wrap" id="Contact">
     <div class="section">
         <h2>Ready to scale?</h2>
-        <p class="sub" style="margin: 0 auto 32px auto;">Book your free call for 30 mins<strong>Now</strong>.</p>
+        <p class="sub" style="margin: 0 auto 32px auto;">Book your free call for 30 mins <strong>Now</strong>.</p>
         <div class="btns" style="justify-content: center;">
             <button class="btn btn-p" onclick="document.querySelector('.nav-cta').click()">Create Account</button>
-            <a href="https://formspree.io/f/mzdkyyvg" class="btn btn-s" style="text-decoration: none; display: inline-flex; align-items: center;">Book a Demo</a>
+            <a href="javascript:void(0)" onclick="openDemoModal()" class="btn btn-s" style="text-decoration: none; display: inline-flex; align-items: center;">Book a Demo</a>
         </div>
     </div>
 </section>
@@ -645,7 +645,6 @@
             <input type="email" id="emailInput" placeholder="Email address" style="padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
             <input type="password" id="passwordInput" placeholder="Password" style="padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
             <input type="password" id="confirmPasswordInput" placeholder="Confirm Passkey" style="display: none; padding: 14px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; outline: none;">
-            <input type="password" id="passwordInput" placeholder="Password">
             <p id="forgotPasswordLink" style="cursor: pointer; font-size: 13px; color: #aaa; margin: 10px 0; text-align: right;">Forgot password?</p>
         </div>
         
@@ -655,7 +654,42 @@
         </div>
     </div>
 </div>
+<div id="demoModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; justify-content: center; align-items: center; padding: 20px; overflow-y: auto;">
+    <div style="background: #fff; color: #333; padding: 30px; border-radius: 15px; width: 100%; max-width: 450px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+        <span onclick="closeDemoModal()" style="position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 24px; font-weight: bold;">&times;</span>
+        <h3 style="margin-top: 0; color: #000;">Schedule Meeting</h3>
+        
+        <form id="demoForm" action="https://formspree.io/f/mzdkyyvg" method="POST" style="display: flex; flex-direction: column; gap: 12px;">
+            <input type="text" name="name" placeholder="Full Name" required style="padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+            <label style="font-size: 12px; margin-bottom: -8px; opacity: 0.7;">Date of Birth:</label>
+            <input type="date" name="dob" required style="padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+            <input type="email" name="email" placeholder="Email ID" required style="padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+            <input type="text" name="business_name" placeholder="Business Name" required style="padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+            <input type="text" name="business_type" placeholder="Business Type" required style="padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+            <input type="tel" name="whatsapp" placeholder="WhatsApp (for Google Meet)" required style="padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+            
+            <div style="display: flex; align-items: flex-start; gap: 8px;">
+                <input type="checkbox" name="terms" required id="form-terms">
+                <label for="form-terms" style="font-size: 11px; line-height: 1.2;">I have read all terms and conditions.</label>
+            </div>
+            
+            <button type="submit" id="submitBtn" class="btn btn-p" style="width: 100%; padding: 12px; background: #000; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Submit Request</button>
+        </form>
+    </div>
+</div>
 
+<div id="successModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10001; justify-content: center; align-items: center; padding: 20px;">
+    <div style="background: white; color: #333; padding: 40px; border-radius: 15px; max-width: 380px; text-align: center;">
+        <h2 style="color: #000;">Request Sent!</h2>
+        <p>You will receive a short mail in the next 24-48 hours.</p>
+        <p style="margin-top: 15px; font-weight: 600;">Follow us for updates:</p>
+        <div style="margin: 15px 0; display: flex; justify-content: center; gap: 15px;">
+            <a href="https://instagram.com/yourprofile" target="_blank" style="color: #E1306C; text-decoration: none;">Instagram</a>
+            <a href="https://facebook.com/yourprofile" target="_blank" style="color: #4267B2; text-decoration: none;">Facebook</a>
+        </div>
+        <button onclick="location.reload()" style="padding: 10px 20px; background: #000; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Close</button>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -861,6 +895,40 @@ window.copyPrompt = function(btn) {
             setTimeout(function() { toast.classList.remove('show'); }, 2000);
         });
     }
+}
+function openDemoModal() {
+    document.getElementById('demoModal').style.display = 'flex';
+}
+
+function closeDemoModal() {
+    document.getElementById('demoModal').style.display = 'none';
+}
+
+// Form Submission Logic
+const demoForm = document.getElementById('demoForm');
+if (demoForm) {
+    demoForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        btn.innerText = "Sending...";
+        btn.disabled = true;
+
+        const response = await fetch(demoForm.action, {
+            method: 'POST',
+            body: new FormData(demoForm),
+            headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+            closeDemoModal();
+            document.getElementById('successModal').style.display = 'flex';
+            demoForm.reset();
+        } else {
+            alert("Error submitting. Please try again.");
+            btn.innerText = "Submit Request";
+            btn.disabled = false;
+        }
+    });
 }
 </script>
 </body>
