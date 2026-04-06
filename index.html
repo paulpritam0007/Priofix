@@ -223,6 +223,24 @@
         @media (min-width: 769px) and (max-width: 1024px) {
             .gallery-grid { column-count: 2; }
         }
+        /* Mobile Alignment Fix */
+    @media (max-width: 768px) {
+    .btns {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 15px; /* Adds space between the two buttons */
+    }
+
+    .btns .btn, 
+    .btns a.btn-s {
+        width: 100%; /* Makes buttons full-width on mobile */
+        max-width: 280px; /* Prevents them from being too wide */
+        text-align: center;
+        margin: 0 auto;
+    }
+}
     </style>
 </head>
 <body>
