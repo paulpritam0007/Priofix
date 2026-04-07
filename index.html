@@ -86,21 +86,15 @@
         .filter-pill { padding: 7px 16px; border-radius: 999px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: rgba(255,255,255,0.5); transition: all 0.2s; letter-spacing: 0.02em; }
         .filter-pill:hover, .filter-pill.active { background: #fff; color: #000; border-color: #fff; }
 
-        /* =====================================================
-           PINTEREST / MASONRY GALLERY — CSS columns approach
-           Cards keep their own natural height (no aspect-ratio
-           forced from the outside). Each .card-visual has its
-           own aspect-ratio set inline on the element itself.
-           ===================================================== */
         .gallery-grid {
             column-count: 3;
             column-gap: 16px;
         }
 
         .gallery-card {
-            break-inside: avoid;          /* never cut a card mid-column */
+            break-inside: avoid;
             -webkit-column-break-inside: avoid;
-            display: inline-block;        /* required for column layout */
+            display: inline-block;
             width: 100%;
             margin-bottom: 16px;
             position: relative;
@@ -113,13 +107,8 @@
         }
         .gallery-card:hover { border-color: rgba(255,255,255,0.25); transform: translateY(-3px); }
 
-        /* Each card-visual controls its own height via aspect-ratio */
         .card-visual { width: 100%; position: relative; overflow: hidden; }
-
-        /* Default ratio — normal cards */
         .gallery-card .card-visual { aspect-ratio: 16/10; }
-
-        /* Tall cards get a portrait ratio */
         .gallery-card.tall .card-visual { aspect-ratio: 4/5; }
 
         .card-visual-inner { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
@@ -199,7 +188,6 @@
             .project-card { padding: 30px 20px; aspect-ratio: 1/1; }
             .cta-wrap h2 { font-size: 36px; }
 
-            /* Pinterest feed — 2 columns on mobile */
             .gallery-grid {
                 column-count: 2;
                 column-gap: 10px;
@@ -213,7 +201,6 @@
             .footer-inner { flex-direction: column; justify-content: center; text-align: center; gap: 16px; }
             .footer-left, .footer-right { justify-content: center; gap: 16px; }
 
-            /* Reduce preview text size on small cards */
             .card-preview-text { font-size: 18px; }
             .card-title { font-size: 12px; }
             .card-tag { font-size: 10px; }
@@ -224,23 +211,23 @@
             .gallery-grid { column-count: 2; }
         }
         /* Mobile Alignment Fix */
-    @media (max-width: 768px) {
-    .btns {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 15px; /* Adds space between the two buttons */
-    }
+        @media (max-width: 768px) {
+            .btns {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 15px;
+            }
 
-    .btns .btn, 
-    .btns a.btn-s {
-        width: 100%; /* Makes buttons full-width on mobile */
-        max-width: 280px; /* Prevents them from being too wide */
-        text-align: center;
-        margin: 0 auto;
-    }
-}
+            .btns .btn, 
+            .btns a.btn-s {
+                width: 100%;
+                max-width: 280px;
+                text-align: center;
+                margin: 0 auto;
+            }
+        }
     </style>
 </head>
 <body>
@@ -274,9 +261,10 @@
     <div class="badge">Powered by Priofix</div>
     <h1>Where Imagination<br>Meets Execution</h1>
     <p class="sub">Seamless designs for a <em>frictionless</em> workflow</p>
-    <div class="btns">
-        <button class="btn btn-p" onclick="document.querySelector('.nav-cta').click()">Sign in</button>
-        <button class="btn btn-s" onclick="openSignUp()">Create account</button>
+    <!-- Hero buttons — toggled by updateHeroButtons() based on auth state -->
+    <div class="btns" id="heroBtns">
+        <button class="btn btn-p" id="heroSignInBtn" onclick="document.querySelector('.nav-cta').click()">Sign in</button>
+        <button class="btn btn-s" id="heroSignUpBtn" onclick="openSignUp()">Create account</button>
     </div>
 </div>
 
@@ -735,7 +723,7 @@ toggleViewBtn.addEventListener('click', () => {
         toggleViewBtn.innerText = "Already have an account? Sign In";
         toggleViewBtn.style.background = "transparent";
         toggleViewBtn.style.border = "none";
-        forgotPasswordLink.style.display = "none"; // Hide it on Sign Up
+        forgotPasswordLink.style.display = "none";
     } else {
         authTitle.innerText = "Join the Club";
         authMessage.innerText = "Sign in or create an account to unlock premium prompts.";
@@ -747,7 +735,7 @@ toggleViewBtn.addEventListener('click', () => {
         toggleViewBtn.innerText = "Create Account";
         toggleViewBtn.style.background = "rgba(255,255,255,0.08)";
         toggleViewBtn.style.border = "1px solid rgba(255,255,255,0.12)";
-        forgotPasswordLink.style.display = "block"; // Show it on Sign In
+        forgotPasswordLink.style.display = "block";
     }
 });
 
@@ -768,7 +756,6 @@ document.querySelectorAll(".nav-link").forEach(link =>
 );
 
 // --- Supabase & Auth Logic ---
-// Add this near the other 'const' declarations at the top
 const forgotPasswordLink = document.getElementById('forgotPasswordLink');
 const SUPABASE_URL = 'https://woklfxbdlnjwkulirmga.supabase.co'; 
 const SUPABASE_ANON_KEY = 'sb_publishable_NE8DuhcY4OtaN0PpEfyuQQ_ZTreKvq6';
@@ -777,7 +764,26 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
 let currentUser = null;
 const authModal = document.getElementById('authModal');
 const closeModalBtn = document.getElementById('closeModalBtn');
-const navCta = document.querySelector('.nav-cta'); 
+const navCta = document.querySelector('.nav-cta');
+
+// Hero button references
+const heroSignInBtn = document.getElementById('heroSignInBtn');
+const heroSignUpBtn = document.getElementById('heroSignUpBtn');
+
+// Updates both the navbar CTA and the hero section buttons based on auth state
+function updateHeroButtons(isLoggedIn) {
+    if (isLoggedIn) {
+        // Replace both hero buttons with a single Sign Out button
+        heroSignInBtn.innerText = "Sign Out";
+        heroSignInBtn.onclick = signOut;
+        heroSignUpBtn.style.display = "none";
+    } else {
+        // Restore original hero buttons
+        heroSignInBtn.innerText = "Sign in";
+        heroSignInBtn.onclick = () => document.querySelector('.nav-cta').click();
+        heroSignUpBtn.style.display = "";
+    }
+}
 
 async function checkUser() {
     const { data: { session } } = await supabaseClient.auth.getSession();
@@ -785,9 +791,11 @@ async function checkUser() {
     if (currentUser) {
         navCta.innerText = "Sign Out";
         navCta.onclick = signOut;
+        updateHeroButtons(true);
     } else {
         navCta.innerText = "Sign in";
         navCta.onclick = showAuthModal;
+        updateHeroButtons(false);
         setTimeout(showAuthModal, 1500);
     }
 }
@@ -850,6 +858,7 @@ primaryAuthActionBtn.addEventListener('click', async () => {
         }
     }
 });
+
 // Forgot Password Logic
 forgotPasswordLink.addEventListener('click', async () => {
     const email = emailInput.value;
@@ -885,6 +894,7 @@ supabaseClient.auth.onAuthStateChange(async (event, session) => {
     }
   }
 });
+
 async function signOut() {
     await supabaseClient.auth.signOut();
     checkUser(); 
@@ -912,6 +922,7 @@ window.copyPrompt = function(btn) {
         });
     }
 }
+
 function openDemoModal() {
     document.getElementById('demoModal').style.display = 'flex';
 }
